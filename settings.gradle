@@ -1,2 +1,3 @@
 rootProject.name = "mvidemo"
 include ':app'
+include ':mvilibrary'
