@@ -1,9 +1,10 @@
 package com.zhongjh.mvidemo.phone.main
 
-import com.zhongjh.mvilibrary.base.activity.BaseViewState
+sealed class MainViewState {
 
-class MainViewState : BaseViewState {
-
+    object LoadingState : MainViewState()
+    data class DataState(val greeting: String) : MainViewState()
+    data class ErrorState(val error: Throwable) : MainViewState()
 
 }
 
