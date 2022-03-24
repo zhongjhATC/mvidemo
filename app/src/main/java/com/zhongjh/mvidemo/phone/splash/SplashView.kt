@@ -1,6 +1,7 @@
 package com.zhongjh.mvidemo.phone.splash
 
 import com.hannesdorfmann.mosby3.mvp.MvpView
+import io.reactivex.Observable
 
 /**
  *
@@ -9,5 +10,14 @@ import com.hannesdorfmann.mosby3.mvp.MvpView
  */
 interface SplashView : MvpView {
 
+    /**
+     * 更新状态
+     */
+    fun render(state: SplashState)
+
+    /**
+     * 判断广告图片是否存在
+     */
+    fun splashAdvertisingIsFileExists(): Observable<Boolean>
 
 }

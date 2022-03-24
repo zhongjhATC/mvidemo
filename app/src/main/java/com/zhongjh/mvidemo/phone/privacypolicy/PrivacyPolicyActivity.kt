@@ -1,23 +1,47 @@
 package com.zhongjh.mvidemo.phone.privacypolicy
 
 import android.os.Bundle
-import com.hannesdorfmann.mosby3.mvi.MviActivity
+import android.util.Log
 import com.jakewharton.rxbinding2.view.clicks
 import com.zhongjh.mvidemo.R
-import io.reactivex.Observable
+import com.zhongjh.mvilibrary.base.activity.BaseActivity
+import com.zhongjh.mvilibrary.constant.Constants.TAG
+import com.zhongjh.mvilibrary.listener.ThrottleOnClickListener
 import kotlinx.android.synthetic.main.activity_privacy_policy.*
 
-class PrivacyPolicyActivity : MviActivity<PrivacyPolicyView, PrivacyPolicyPresenter>(),
+class PrivacyPolicyActivity : BaseActivity<PrivacyPolicyView, PrivacyPolicyPresenter>(),
     PrivacyPolicyView {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_privacy_policy)
+    override fun initLayoutId(): Int {
+        return R.layout.activity_privacy_policy
+    }
+
+    override fun initParam(savedInstanceState: Bundle?) {
+    }
+
+    override fun initListener() {
+        btnOK.setOnClickListener(object : ThrottleOnClickListener() {
+            override fun onClick() {
+                renderAgreeState()
+            }
+        })
+    }
+
+    override fun initialize() {
     }
 
     override fun createPresenter() = PrivacyPolicyPresenter()
     override fun cancelIntent() = btnCancel.clicks()
-    override fun agreeIntent() = btnOK.clicks()
+
+    override fun render(state: PrivacyPolicyState) {
+        when (state) {
+            is PrivacyPolicyState.AgreeState -> renderAgreeState()
+        }
+    }
+
+    private fun renderAgreeState() {
+        Log.d(TAG, "renderAgreeState")
+    }
 
 
 }

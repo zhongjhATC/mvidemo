@@ -1,6 +1,7 @@
 package com.zhongjh.mvilibrary.base
 
 import android.app.Application
+import com.tencent.mmkv.MMKV
 import java.lang.IllegalStateException
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
@@ -11,11 +12,12 @@ import kotlin.reflect.KProperty
  * @author zhongjh
  * @date 2022/3/22
  */
-class BaseApplication : Application() {
+open class BaseApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
         instance = this
+        MMKV.initialize(this)
     }
 
     companion object {

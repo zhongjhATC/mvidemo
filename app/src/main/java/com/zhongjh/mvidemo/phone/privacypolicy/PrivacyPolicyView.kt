@@ -17,11 +17,6 @@ interface PrivacyPolicyView : MvpView {
     fun cancelIntent(): Observable<Unit>
 
     /**
-     * 同意
-     */
-    fun agreeIntent(): Observable<Unit>
-
-    /**
      * 更新状态
      */
     fun render(state: PrivacyPolicyState)

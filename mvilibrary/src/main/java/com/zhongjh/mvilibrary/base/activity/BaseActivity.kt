@@ -1,6 +1,7 @@
 package com.zhongjh.mvilibrary.base.activity
 
 import android.app.ProgressDialog
+import android.os.Bundle
 import android.view.WindowManager
 import com.hannesdorfmann.mosby3.mvi.MviActivity
 import com.hannesdorfmann.mosby3.mvi.MviPresenter
@@ -8,6 +9,34 @@ import com.hannesdorfmann.mosby3.mvp.MvpView
 import com.zhongjh.mvilibrary.R
 
 abstract class BaseActivity<V : MvpView, P : MviPresenter<V, *>?> : MviActivity<V, P>(), MvpView {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(initLayoutId())
+        initParam(savedInstanceState)
+        initListener()
+        initialize()
+    }
+
+    /**
+     * 初始化布局ID
+     */
+    abstract fun initLayoutId(): Int
+
+    /**
+     * 初始化初始参数
+     */
+    abstract fun initParam(savedInstanceState: Bundle?)
+
+    /**
+     * 初始化事件
+     */
+    abstract fun initListener()
+
+    /**
+     * 初始化数据
+     */
+    abstract fun initialize()
 
     private val progressDialog: ProgressDialog by lazy {
         initDialog()
