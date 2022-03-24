@@ -20,4 +20,6 @@ interface SplashView : MvpView {
      */
     fun splashAdvertisingIsFileExists(): Observable<Boolean>
 
+
+
 }

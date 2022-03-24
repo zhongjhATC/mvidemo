@@ -1,15 +1,9 @@
 package com.zhongjh.mvidemo.phone.splash
 
-import android.content.Intent.getIntent
-import com.blankj.utilcode.util.FileUtils
 import com.hannesdorfmann.mosby3.mvi.MviBasePresenter
 import com.tencent.mmkv.MMKV
-import com.zhongjh.mvidemo.constant.FilePaths
 import com.zhongjh.mvidemo.data.local.MMKVLocal
-import com.zhongjh.mvidemo.phone.main.MainView
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Consumer
 
 
 /**
@@ -22,12 +16,18 @@ class SplashPresenter : MviBasePresenter<SplashView, SplashState>() {
     override fun bindIntents() {
         val showAdvertising: Observable<SplashState> =
             intent(SplashView::splashAdvertisingIsFileExists)
-                .flatMap { showAdvertising() }
+                .switchMap { showAdvertising(it) }
         val initialize: Observable<SplashState> = initialize()
         subscribeViewState(initialize, SplashView::render)
     }
 
-    private fun showAdvertising(): Observable<SplashState> {
+    private fun showAdvertising(splashAdvertisingIsFileExists: Boolean): Observable<SplashState> {
+        // 如果存在广告图则显示广告，否则显示缓存
+        return if (splashAdvertisingIsFileExists) {
+            Observable.just(SplashState.showAdvertising)
+        } else {
+            Observable.just(SplashState.showAdvertisingCache)
+        }
     }
 
     private fun initialize(): Observable<SplashState> {
