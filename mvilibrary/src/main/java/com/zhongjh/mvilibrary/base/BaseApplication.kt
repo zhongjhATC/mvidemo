@@ -1,10 +1,13 @@
 package com.zhongjh.mvilibrary.base
 
 import android.app.Application
+import android.util.Log
 import com.tencent.mmkv.MMKV
-import java.lang.IllegalStateException
+import com.tencent.smtt.sdk.QbSdk
+import com.tencent.smtt.sdk.QbSdk.PreInitCallback
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
+
 
 /**
  * Application基类
@@ -18,10 +21,23 @@ open class BaseApplication : Application() {
         super.onCreate()
         instance = this
         MMKV.initialize(this)
+
+        // 初始化腾讯x5 QbSdk
+        QbSdk.initX5Environment(this, object : PreInitCallback {
+            override fun onCoreInitFinished() {
+                Log.e(TAG, "========onCoreInitFinished===")
+            }
+
+            override fun onViewInitFinished(b: Boolean) {
+                Log.e(TAG, "x5初始化结果====$b")
+            }
+        })
+
     }
 
     companion object {
         private var instance: BaseApplication by NotNullSingleValue()
+        val TAG = BaseApplication::class.java.simpleName.toString()
     }
 
     private class NotNullSingleValue<T> : ReadWriteProperty<Any?, T> {
@@ -37,6 +53,14 @@ open class BaseApplication : Application() {
                 throw IllegalStateException("application already initialized")
             }
         }
+    }
+
+    /**
+     * 初始化
+     * 在同意协议后，再调用该方法，符合平台上架规范
+     */
+    fun init() {
+
     }
 
 }

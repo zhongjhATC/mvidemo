@@ -110,6 +110,12 @@ dependencies {
     // 工具类 https://github.com/Blankj/AndroidUtilCode 解释 https://blankj.com/2016/07/31/android-utils-code/
     api 'com.blankj:utilcodex:1.31.0'
 
+    // 腾讯x5webView内核Sdk
+    api 'com.tencent.tbs:tbssdk:44165'
+
+    // gif 在android11上运行如果不是gif图会奔溃 https://github.com/CodeXiaoMai/EnvironmentSwitcher
+    api 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
+
     //endregion ------------------------------------------------- 其他库 -------------------------------------------------
 
 
