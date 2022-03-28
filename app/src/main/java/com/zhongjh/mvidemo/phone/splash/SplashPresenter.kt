@@ -20,6 +20,9 @@ class SplashPresenter : MviBasePresenter<SplashView, SplashState>() {
         val showAdvertising: Observable<SplashState> =
             intent(SplashView::splashAdvertisingIsFileExists)
                 .map { showAdvertising(it) }
+        // 跳过事件
+        val countdown
+
         val initialize: Observable<SplashState> = initialize()
         val merged = Observable.merge(showAdvertising, initialize)
         subscribeViewState(merged, SplashView::render)
