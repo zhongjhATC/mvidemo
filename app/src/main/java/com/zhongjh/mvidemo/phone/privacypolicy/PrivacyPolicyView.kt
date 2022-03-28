@@ -12,9 +12,9 @@ import io.reactivex.Observable
 interface PrivacyPolicyView : MvpView {
 
     /**
-     * 不同意并退出
+     * 同意
      */
-    fun cancelIntent(): Observable<Unit>
+    fun agreeIntent(): Observable<Unit>
 
     /**
      * 更新状态

@@ -7,6 +7,7 @@ import com.blankj.utilcode.util.FileUtils
 import com.bumptech.glide.Glide
 import com.zhongjh.mvidemo.R
 import com.zhongjh.mvidemo.constant.FilePaths
+import com.zhongjh.mvidemo.phone.main.MainActivity
 import com.zhongjh.mvidemo.phone.privacypolicy.PrivacyPolicyActivity
 import com.zhongjh.mvilibrary.base.activity.BaseActivity
 import io.reactivex.Observable
@@ -89,6 +90,8 @@ class SplashActivity : BaseActivity<SplashView, SplashPresenter>(),
      * 倒计时结束
      */
     private fun completeCountdown() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
         this.finish()
     }
 

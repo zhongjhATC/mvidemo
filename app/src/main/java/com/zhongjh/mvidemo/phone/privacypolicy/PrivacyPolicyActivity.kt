@@ -1,5 +1,6 @@
 package com.zhongjh.mvidemo.phone.privacypolicy
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -7,6 +8,7 @@ import android.text.method.LinkMovementMethod
 import android.util.Log
 import com.jakewharton.rxbinding2.view.clicks
 import com.zhongjh.mvidemo.R
+import com.zhongjh.mvidemo.phone.main.MainActivity
 import com.zhongjh.mvilibrary.base.activity.BaseActivity
 import com.zhongjh.mvilibrary.constant.Constants.TAG
 import com.zhongjh.mvilibrary.listener.ThrottleOnClickListener
@@ -25,9 +27,9 @@ class PrivacyPolicyActivity : BaseActivity<PrivacyPolicyView, PrivacyPolicyPrese
     }
 
     override fun initListener() {
-        btnOK.setOnClickListener(object : ThrottleOnClickListener() {
+        btnCancel.setOnClickListener(object : ThrottleOnClickListener() {
             override fun onClick() {
-                renderAgreeState()
+                this@PrivacyPolicyActivity.finish()
             }
         })
     }
@@ -37,16 +39,18 @@ class PrivacyPolicyActivity : BaseActivity<PrivacyPolicyView, PrivacyPolicyPrese
     }
 
     override fun createPresenter() = PrivacyPolicyPresenter()
-    override fun cancelIntent() = btnCancel.clicks()
+    override fun agreeIntent() = btnOK.clicks()
 
     override fun render(state: PrivacyPolicyState) {
         when (state) {
-            is PrivacyPolicyState.AgreeState -> renderAgreeState()
+            is PrivacyPolicyState.AgreeState -> agreeState()
         }
     }
 
-    private fun renderAgreeState() {
-        Log.d(TAG, "renderAgreeState")
+    private fun agreeState() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        this.finish()
     }
 
     /**

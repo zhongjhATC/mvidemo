@@ -1,16 +1,12 @@
 package com.zhongjh.mvidemo.phone.splash
 
+import android.text.TextUtils
 import com.hannesdorfmann.mosby3.mvi.MviBasePresenter
-import com.tencent.mmkv.MMKV
 import com.zhongjh.mvidemo.data.local.MMKVLocal
-import io.reactivex.Flowable
+import com.zhongjh.mvilibrary.utils.SPCacheUtil
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Action
-import io.reactivex.functions.Consumer
 import java.util.concurrent.TimeUnit
-import java.util.concurrent.Flow as Flow1
 
 
 /**
@@ -45,16 +41,13 @@ class SplashPresenter : MviBasePresenter<SplashView, SplashState>() {
      * 判断运行下一个页面的逻辑
      */
     private fun initialize(): Observable<SplashState> {
-        val kv = MMKV.defaultMMKV()
-        if (kv != null) {
-            // 如果需要打开隐私政策，则运行该界面
-            if (kv.decodeBool(MMKVLocal.IS_PRIVACY_POLICY, true)) {
-                return Observable.just(SplashState.StartPrivacyPolicyActivity)
-            }
-            // 如果没有用户数据，则需要先登录
-            if (kv.decodeString(MMKVLocal.USER_JSON) != null) {
-                return Observable.just(SplashState.StartLoginActivity)
-            }
+        // 如果需要打开隐私政策，则运行该界面
+        if (SPCacheUtil.getBoolean(MMKVLocal.IS_PRIVACY_POLICY, true)) {
+            return Observable.just(SplashState.StartPrivacyPolicyActivity)
+        }
+        // 如果没有用户数据，则需要先登录
+        if (!TextUtils.isEmpty(SPCacheUtil.getString(MMKVLocal.USER_JSON))) {
+            return Observable.just(SplashState.StartLoginActivity)
         }
         // 倒计时照常运行
         return startAdvertising()
