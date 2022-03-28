@@ -20,4 +20,8 @@ interface SplashView : MvpView {
      */
     fun splashAdvertisingIsFileExists(): Observable<Boolean>
 
+    /**
+     * 直接跳过不等待
+     */
+    fun skipIntent(): Observable<Unit>
 }

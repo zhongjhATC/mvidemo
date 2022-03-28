@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.view.View
 import com.blankj.utilcode.util.FileUtils
 import com.bumptech.glide.Glide
+import com.jakewharton.rxbinding2.view.clicks
 import com.zhongjh.mvidemo.R
 import com.zhongjh.mvidemo.constant.FilePaths
 import com.zhongjh.mvidemo.phone.main.MainActivity
 import com.zhongjh.mvidemo.phone.privacypolicy.PrivacyPolicyActivity
 import com.zhongjh.mvilibrary.base.activity.BaseActivity
 import io.reactivex.Observable
+import kotlinx.android.synthetic.main.activity_privacy_policy.*
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.view_countdown.*
 
@@ -32,12 +34,14 @@ class SplashActivity : BaseActivity<SplashView, SplashPresenter>(),
     }
 
     override fun initListener() {
+
     }
 
     override fun initialize() {
     }
 
     override fun createPresenter() = SplashPresenter()
+    override fun skipIntent() = ivCountdown.clicks()
 
     override fun render(state: SplashState) {
         when (state) {
