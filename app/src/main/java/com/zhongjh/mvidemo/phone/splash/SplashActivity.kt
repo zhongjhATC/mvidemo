@@ -10,9 +10,8 @@ import com.zhongjh.mvidemo.R
 import com.zhongjh.mvidemo.constant.FilePaths
 import com.zhongjh.mvidemo.phone.main.MainActivity
 import com.zhongjh.mvidemo.phone.privacypolicy.PrivacyPolicyActivity
-import com.zhongjh.mvilibrary.base.activity.BaseActivity
+import com.zhongjh.mvilibrary.base.BaseActivity
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.activity_privacy_policy.*
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.view_countdown.*
 
@@ -46,15 +45,16 @@ class SplashActivity : BaseActivity<SplashView, SplashPresenter>(),
     override fun render(state: SplashState) {
         when (state) {
             is SplashState.StartPrivacyPolicyActivity -> startPrivacyPolicyActivity()
+            is SplashState.StartLoginActivity -> startLoginActivity()
+            is SplashState.StartMainActivity -> startMainActivity()
             is SplashState.ShowAdvertising -> showAdvertising()
             is SplashState.ShowAdvertisingCache -> showAdvertisingCache()
-            is SplashState.StartLoginActivity -> startLoginActivity()
             is SplashState.ShowCountdownSeconds -> showCountdownSeconds(state)
             is SplashState.CompleteCountdown -> completeCountdown()
         }.let { }
     }
 
-    override fun splashAdvertisingIsFileExists(): Observable<Boolean> {
+    override fun splashAdvertisingIsFileExistsIntent(): Observable<Boolean> {
         return Observable.just(
             FileUtils.isFileExists(
                 FilePaths.splashAdvertisingFile(
@@ -78,6 +78,15 @@ class SplashActivity : BaseActivity<SplashView, SplashPresenter>(),
      */
     private fun startLoginActivity() {
         val intent = Intent(this, PrivacyPolicyActivity::class.java)
+        startActivity(intent)
+        this.finish()
+    }
+
+    /**
+     * 打开首页界面
+     */
+    private fun startMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         this.finish()
     }

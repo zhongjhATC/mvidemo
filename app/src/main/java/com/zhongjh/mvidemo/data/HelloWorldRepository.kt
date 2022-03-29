@@ -1,4 +1,4 @@
-package com.zhongjh.mvidemo.phone.main.data
+package com.zhongjh.mvidemo.data
 
 import io.reactivex.Observable
 import java.util.Random

@@ -11,11 +11,6 @@ import io.reactivex.Observable
 interface MainView : MvpView {
 
     /**
-     * 将按钮点击显示为可观察对象
-     */
-    fun sayHelloWorldIntent(): Observable<Unit>
-
-    /**
      * Render the state in the UI
      */
     fun render(state: MainViewState)

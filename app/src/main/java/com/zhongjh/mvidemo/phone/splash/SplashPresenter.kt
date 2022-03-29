@@ -6,6 +6,7 @@ import com.zhongjh.mvidemo.data.local.MMKVLocal
 import com.zhongjh.mvilibrary.utils.SPCacheUtil
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import java.util.concurrent.TimeUnit
 
 
@@ -16,15 +17,21 @@ import java.util.concurrent.TimeUnit
  */
 class SplashPresenter : MviBasePresenter<SplashView, SplashState>() {
 
+    /**
+     * 用于随时关闭倒计时
+     */
+    var countdownDisposable: Disposable? = null
+
     override fun bindIntents() {
         val showAdvertising: Observable<SplashState> =
-            intent(SplashView::splashAdvertisingIsFileExists)
+            intent(SplashView::splashAdvertisingIsFileExistsIntent)
                 .map { showAdvertising(it) }
         // 跳过事件
-        val countdown
-
+        val countdown: Observable<SplashState> =
+            intent(SplashView::skipIntent)
+                .switchMap { countdown() }
         val initialize: Observable<SplashState> = initialize()
-        val merged = Observable.merge(showAdvertising, initialize)
+        val merged = Observable.merge(showAdvertising, initialize, countdown)
         subscribeViewState(merged, SplashView::render)
     }
 
@@ -56,6 +63,7 @@ class SplashPresenter : MviBasePresenter<SplashView, SplashState>() {
         return startAdvertising()
     }
 
+
     /**
      * 倒计时
      */
@@ -63,6 +71,7 @@ class SplashPresenter : MviBasePresenter<SplashView, SplashState>() {
         // 从0开始发射5个数字为：0-6依次输出，延时0s执行，每1s发射一次。
         return Observable.intervalRange(0, 6, 0, 1, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { t -> countdownDisposable = t }
             .map {
                 if (it == 5L) {
                     SplashState.CompleteCountdown
@@ -70,6 +79,18 @@ class SplashPresenter : MviBasePresenter<SplashView, SplashState>() {
                     SplashState.ShowCountdownSeconds(it)
                 }
             }
+    }
+
+    private fun countdown(): Observable<SplashState> {
+        // 关闭倒计时
+        countdownDisposable?.dispose()
+        // 如果没有用户数据，则需要先登录
+        return if (!TextUtils.isEmpty(SPCacheUtil.getString(MMKVLocal.USER_JSON))) {
+            Observable.just(SplashState.StartLoginActivity)
+        } else {
+            // 如果有用户数据，就进入首页
+            Observable.just(SplashState.StartMainActivity)
+        }
     }
 
 }

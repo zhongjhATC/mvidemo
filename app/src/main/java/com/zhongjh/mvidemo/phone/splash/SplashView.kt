@@ -18,7 +18,7 @@ interface SplashView : MvpView {
     /**
      * 判断广告图片是否存在
      */
-    fun splashAdvertisingIsFileExists(): Observable<Boolean>
+    fun splashAdvertisingIsFileExistsIntent(): Observable<Boolean>
 
     /**
      * 直接跳过不等待

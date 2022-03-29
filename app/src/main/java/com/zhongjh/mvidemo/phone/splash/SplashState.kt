@@ -1,6 +1,10 @@
 package com.zhongjh.mvidemo.phone.splash
 
-
+/**
+ *
+ * @author zhongjh
+ * @date 2022/3/23
+ */
 sealed class SplashState {
 
     /**
@@ -12,6 +16,11 @@ sealed class SplashState {
      * 打开登录界面
      */
     object StartLoginActivity : SplashState()
+
+    /**
+     * 打开首页界面
+     */
+    object StartMainActivity : SplashState()
 
     /**
      * 显示广告

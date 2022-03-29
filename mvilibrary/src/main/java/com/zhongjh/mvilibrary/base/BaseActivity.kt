@@ -1,4 +1,4 @@
-package com.zhongjh.mvilibrary.base.activity
+package com.zhongjh.mvilibrary.base
 
 import android.app.ProgressDialog
 import android.os.Bundle
@@ -8,6 +8,12 @@ import com.hannesdorfmann.mosby3.mvi.MviPresenter
 import com.hannesdorfmann.mosby3.mvp.MvpView
 import com.zhongjh.mvilibrary.R
 
+
+/**
+ * Activity基类
+ * @author zhongjh
+ * @date 2022/3/21
+ */
 abstract class BaseActivity<V : MvpView, P : MviPresenter<V, *>?> : MviActivity<V, P>(), MvpView {
 
     override fun onCreate(savedInstanceState: Bundle?) {

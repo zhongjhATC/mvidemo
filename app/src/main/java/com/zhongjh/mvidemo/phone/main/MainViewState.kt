@@ -1,10 +1,11 @@
 package com.zhongjh.mvidemo.phone.main
 
+/**
+ *
+ * @author zhongjh
+ * @date 2022/3/23
+ */
 sealed class MainViewState {
-
-    object LoadingState : MainViewState()
-    data class DataState(val greeting: String) : MainViewState()
-    data class ErrorState(val error: Throwable) : MainViewState()
 
 }
 

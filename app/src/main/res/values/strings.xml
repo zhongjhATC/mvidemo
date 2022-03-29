@@ -3,4 +3,9 @@
     <string name="disagree_and_quit">不同意并退出</string>
     <string name="agree">同意</string>
     <string name="tips_on_user_privacy_protection">用户隐私保护提示</string>
+    <string name="shop">商城</string>
+    <string name="auction">拍卖</string>
+    <string name="fast_auction">快拍</string>
+    <string name="exchange">交流</string>
+    <string name="my">我的</string>
 </resources>

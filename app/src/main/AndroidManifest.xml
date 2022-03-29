@@ -21,8 +21,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".phone.privacypolicy.PrivacyPolicyActivity" />
-        <activity android:name=".phone.main.MainActivity" />
-
+        <activity
+            android:name=".phone.main.MainActivity"
+            android:theme="@style/Theme.MviDemo" />
     </application>
 
 </manifest>

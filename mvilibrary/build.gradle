@@ -116,6 +116,8 @@ dependencies {
     // gif 在android11上运行如果不是gif图会奔溃 https://github.com/CodeXiaoMai/EnvironmentSwitcher
     api 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
 
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
+
     //endregion ------------------------------------------------- 其他库 -------------------------------------------------
 
 

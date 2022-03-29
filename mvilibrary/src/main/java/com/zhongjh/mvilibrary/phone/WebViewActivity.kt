@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
 
 
 /**
- *
+ * WebViewActivity
  * @author zhongjh
  * @date 2022/3/28
  */

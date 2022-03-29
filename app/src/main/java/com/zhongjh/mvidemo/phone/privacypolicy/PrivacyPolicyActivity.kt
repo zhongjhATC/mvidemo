@@ -5,17 +5,19 @@ import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
-import android.util.Log
 import com.jakewharton.rxbinding2.view.clicks
 import com.zhongjh.mvidemo.R
 import com.zhongjh.mvidemo.phone.main.MainActivity
-import com.zhongjh.mvilibrary.base.activity.BaseActivity
-import com.zhongjh.mvilibrary.constant.Constants.TAG
+import com.zhongjh.mvilibrary.base.BaseActivity
 import com.zhongjh.mvilibrary.listener.ThrottleOnClickListener
 import com.zhongjh.mvilibrary.utils.LinkUrlText
 import kotlinx.android.synthetic.main.activity_privacy_policy.*
 
-
+/**
+ *
+ * @author zhongjh
+ * @date 2022/3/23
+ */
 class PrivacyPolicyActivity : BaseActivity<PrivacyPolicyView, PrivacyPolicyPresenter>(),
     PrivacyPolicyView {
 
