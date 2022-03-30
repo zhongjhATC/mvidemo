@@ -1,6 +1,7 @@
 package com.zhongjh.mvidemo.phone.main.fragment.shopping
 
 import com.hannesdorfmann.mosby3.mvp.MvpView
+import io.reactivex.Observable
 
 /**
  *
@@ -9,5 +10,11 @@ import com.hannesdorfmann.mosby3.mvp.MvpView
  */
 interface ShopPingView : MvpView {
 
+    /**
+     * 对“下拉刷新”做出反应的意图
+     *
+     * @return 发出的item布尔值可以被忽略，因为它总是为真
+     */
+    fun pullToRefreshIntent(): Observable<Boolean>
 
 }

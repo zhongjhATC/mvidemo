@@ -2,6 +2,7 @@ package com.zhongjh.mvidemo.phone
 
 import android.app.Activity
 import com.zhongjh.mvidemo.R
+import com.zhongjh.mvidemo.data.http.retrofit.RetrofitClient
 import com.zhongjh.mvidemo.phone.splash.SplashActivity
 import com.zhongjh.mvilibrary.base.BaseApplication
 

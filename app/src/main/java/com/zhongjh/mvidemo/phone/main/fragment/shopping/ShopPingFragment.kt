@@ -12,7 +12,7 @@ import com.zhongjh.mvilibrary.base.BaseFragment
 class ShopPingFragment : BaseFragment<ShopPingView, ShopPingPresenter>(), ShopPingView {
 
     override fun initLayoutId(): Int {
-        return R.layout.activity_privacy_policy
+        return R.layout.fragment_shopping
     }
 
     override fun initParam(savedInstanceState: Bundle?) {

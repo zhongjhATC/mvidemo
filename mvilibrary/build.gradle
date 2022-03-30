@@ -80,6 +80,35 @@ dependencies {
 
     //endregion ------------------------------------------------- 网络库 -------------------------------------------------
 
+    //region ------------------------------------------------- 应用库 -------------------------------------------------
+
+    // RecyclerView封装的Adapter
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
+
+    // RecyclerView刷新布局
+    api  'com.scwang.smart:refresh-layout-kernel:2.0.3'       // 核心必须依赖
+    api  'com.scwang.smart:refresh-header-classics:2.0.3'    // 经典刷新头
+
+    // 底部的tabbar https://github.com/zhongjhATC/NavigationTabBar/releases/tag/1.2.5Z
+    api 'com.github.zhongjhATC:NavigationTabBar:1.2.5Z'
+
+    // banner轮播图 https://github.com/youth5201314/banner
+    api 'com.youth.banner:banner:2.1.0'
+
+    // gif 在android11上运行如果不是gif图会奔溃 https://github.com/CodeXiaoMai/EnvironmentSwitcher
+    api 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
+
+    // dialog https://github.com/afollestad/material-dialogs
+    api 'com.afollestad.material-dialogs:core:3.3.0'
+    api 'com.afollestad.material-dialogs:input:3.3.0'
+    api 'com.afollestad.material-dialogs:files:3.3.0'
+    api 'com.afollestad.material-dialogs:color:3.3.0'
+    api 'com.afollestad.material-dialogs:datetime:3.3.0'
+    api 'com.afollestad.material-dialogs:bottomsheets:3.3.0'
+    api 'com.afollestad.material-dialogs:lifecycle:3.3.0'
+
+    //endregion ------------------------------------------------- 应用库 -------------------------------------------------
+
     //region ------------------------------------------------- 其他库 -------------------------------------------------
 
     // 内容存储库，比SharedPreferences快 混淆#com.tencent.mmkv https://github.com/Tencent/MMKV/blob/master/README_CN.md
@@ -91,30 +120,14 @@ dependencies {
     }
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'
 
-    // recyclerview的databinding套装 混淆#bindingcollectionadapter
-    api 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:3.0.0-beta3'
-    api 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:3.0.0-beta3'
-
     // 异常捕获 https://github.com/Ereza/CustomActivityOnCrash
     api 'cat.ereza:customactivityoncrash:2.3.0'
-
-    // dialog https://github.com/afollestad/material-dialogs
-    api 'com.afollestad.material-dialogs:core:3.3.0'
-    api 'com.afollestad.material-dialogs:input:3.3.0'
-    api 'com.afollestad.material-dialogs:files:3.3.0'
-    api 'com.afollestad.material-dialogs:color:3.3.0'
-    api 'com.afollestad.material-dialogs:datetime:3.3.0'
-    api 'com.afollestad.material-dialogs:bottomsheets:3.3.0'
-    api 'com.afollestad.material-dialogs:lifecycle:3.3.0'
 
     // 工具类 https://github.com/Blankj/AndroidUtilCode 解释 https://blankj.com/2016/07/31/android-utils-code/
     api 'com.blankj:utilcodex:1.31.0'
 
     // 腾讯x5webView内核Sdk
     api 'com.tencent.tbs:tbssdk:44165'
-
-    // gif 在android11上运行如果不是gif图会奔溃 https://github.com/CodeXiaoMai/EnvironmentSwitcher
-    api 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
 

@@ -6,13 +6,13 @@ import android.util.Log
 import android.view.Gravity
 import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.blankj.utilcode.util.LogUtils
+import com.blankj.utilcode.util.Utils
 import com.tencent.mmkv.MMKV
 import com.tencent.smtt.sdk.QbSdk
 import com.tencent.smtt.sdk.QbSdk.PreInitCallback
 import com.zhongjh.mvilibrary.BuildConfig
 import com.zhongjh.mvilibrary.constant.FilePaths
 import com.zhongjh.mvilibrary.phone.ErrorActivity
-import com.zhongjh.mvilibrary.utils.ApplicationUtil
 import com.zhongjh.mvilibrary.utils.LogUtil
 import com.zhongjh.mvilibrary.utils.ToastUtils
 import kotlin.properties.ReadWriteProperty
@@ -31,7 +31,7 @@ abstract class BaseApplication : Application() {
         super.onCreate()
         instance = this
         // 初始化工具类
-        ApplicationUtil.init(this)
+        Utils.init(this)
         MMKV.initialize(this)
 
         // 初始化腾讯x5 QbSdk

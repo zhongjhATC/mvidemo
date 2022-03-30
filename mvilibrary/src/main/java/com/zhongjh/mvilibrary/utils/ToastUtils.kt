@@ -15,7 +15,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
-import com.zhongjh.mvilibrary.utils.ApplicationUtil.Companion.getApplication
+import com.blankj.utilcode.util.Utils
 import java.lang.ref.WeakReference
 
 /**
@@ -28,7 +28,7 @@ class ToastUtils private constructor() {
         private var sToast: Toast? = null
         private var gravity = Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM
         private var xOffset = 0
-        private var yOffset = (64 * getApplication().resources
+        private var yOffset = (64 * Utils.getApp().resources
             .displayMetrics.density + 0.5).toInt()
         private var backgroundColor = DEFAULT_COLOR
         private var bgResource = -1
@@ -56,7 +56,7 @@ class ToastUtils private constructor() {
          */
         fun setView(@LayoutRes layoutId: Int) {
             val inflate =
-                getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                Utils.getApp().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             sViewWeakReference = WeakReference(inflate.inflate(layoutId, null))
         }
 
@@ -301,7 +301,7 @@ class ToastUtils private constructor() {
          * @param duration 显示时长
          */
         private fun show(@StringRes resId: Int, duration: Int) {
-            showToast(getApplication().resources.getText(resId).toString(), duration)
+            showToast(Utils.getApp().resources.getText(resId).toString(), duration)
         }
 
         /**
@@ -312,7 +312,7 @@ class ToastUtils private constructor() {
          * @param args     参数
          */
         private fun showToastByResId(@StringRes resId: Int, duration: Int, vararg args: Any) {
-            showToast(String.format(getApplication().resources.getString(resId), *args), duration)
+            showToast(String.format(Utils.getApp().resources.getString(resId), *args), duration)
         }
 
         /**
@@ -339,7 +339,7 @@ class ToastUtils private constructor() {
             if (sViewWeakReference != null) {
                 val view = sViewWeakReference!!.get()
                 if (view != null) {
-                    sToast = Toast(getApplication())
+                    sToast = Toast(Utils.getApp())
                     sToast!!.view = view
                     sToast!!.duration = duration
                     isCustom = true
@@ -355,9 +355,9 @@ class ToastUtils private constructor() {
                         spannableString.length,
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
                     )
-                    sToast = Toast.makeText(getApplication(), spannableString, duration)
+                    sToast = Toast.makeText(Utils.getApp(), spannableString, duration)
                 } else {
-                    sToast = Toast.makeText(getApplication(), text, duration)
+                    sToast = Toast.makeText(Utils.getApp(), text, duration)
                 }
             }
             val view = sToast!!.view

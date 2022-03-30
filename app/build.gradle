@@ -36,11 +36,4 @@ android {
 dependencies {
     implementation project(path: ':mvilibrary')
 
-    // 底部的tabBar https://github.com/zhongjhATC/NavigationTabBar/releases/tag/1.2.5Z
-    api 'com.github.zhongjhATC:NavigationTabBar:1.2.5Z'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.2.1'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
-
 }
