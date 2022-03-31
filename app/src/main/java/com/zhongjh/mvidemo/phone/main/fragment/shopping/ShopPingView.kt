@@ -17,4 +17,9 @@ interface ShopPingView : MvpView {
      */
     fun pullToRefreshIntent(): Observable<Boolean>
 
+    /**
+     * Render the state in the UI
+     */
+    fun render(state: ShopPingState)
+
 }

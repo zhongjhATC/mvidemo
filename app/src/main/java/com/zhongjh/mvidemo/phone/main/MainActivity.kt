@@ -1,14 +1,14 @@
 package com.zhongjh.mvidemo.phone.main
 
-import android.graphics.Color
 import android.os.Bundle
 import androidx.core.content.res.ResourcesCompat
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
-import com.blankj.utilcode.util.ScreenUtils
 import com.zhongjh.mvidemo.R
 import com.zhongjh.mvidemo.phone.main.viewpager.ViewPagerFragmentStateAdapter
 import com.zhongjh.mvilibrary.base.BaseActivity
 import com.zhongjh.mvilibrary.base.BaseApplication
+import com.zhongjh.mvilibrary.utils.ScreenUtil
+import com.zhongjh.mvilibrary.utils.StatusBarUtil
 import devlight.io.library.ntb.NavigationTabBar
 import devlight.io.library.ntb.NavigationTabBar.OnTabBarSelectedIndexListener
 import kotlinx.android.synthetic.main.activity_main.*
@@ -25,7 +25,6 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView {
     }
 
     override fun initLayoutId(): Int {
-        ScreenUtils.setFullScreen(this@MainActivity)
         return R.layout.activity_main
     }
 
@@ -49,6 +48,7 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView {
     }
 
     override fun initialize() {
+        StatusBarUtil.initStatusBarHeight(viewpager2)
         BaseApplication.instance.init()
         initViewPager()
         initTabBar()
@@ -91,14 +91,18 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView {
         )
         models.add(
             NavigationTabBar.Model.Builder(
-                ResourcesCompat.getDrawable(resources, R.drawable.ic_round_alarm_on_24,theme),
+                ResourcesCompat.getDrawable(resources, R.drawable.ic_round_alarm_on_24, theme),
                 R.color.lilac
             ).title(getString(R.string.exchange))
                 .build()
         )
         models.add(
             NavigationTabBar.Model.Builder(
-                ResourcesCompat.getDrawable(resources, R.drawable.ic_round_insert_emoticon_24,theme),
+                ResourcesCompat.getDrawable(
+                    resources,
+                    R.drawable.ic_round_insert_emoticon_24,
+                    theme
+                ),
                 R.color.lilac
             ).title(getString(R.string.my))
                 .build()
@@ -108,7 +112,7 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView {
         navigationTabBar.models = models
     }
 
-    override fun render(state: MainViewState) {
+    override fun render(state: MainState) {
     }
 
 

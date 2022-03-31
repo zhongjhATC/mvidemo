@@ -7,7 +7,7 @@ import com.hannesdorfmann.mosby3.mvi.MviBasePresenter
  * @author zhongjh
  * @date 2022/3/21
  */
-class MainPresenter : MviBasePresenter<MainView, MainViewState>() {
+class MainPresenter : MviBasePresenter<MainView, MainState>() {
 
     override fun bindIntents() {
 //        val helloWorldState: Observable<MainViewState> = intent(MainView::sayHelloWorldIntent)

@@ -1,7 +1,6 @@
 package com.zhongjh.mvidemo.phone.privacypolicy
 
 import com.hannesdorfmann.mosby3.mvp.MvpView
-import com.zhongjh.mvidemo.phone.main.MainViewState
 import io.reactivex.Observable
 
 /**

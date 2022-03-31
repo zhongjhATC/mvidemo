@@ -13,9 +13,9 @@ object ShopPingApi {
     /**
      * 获取商品
      */
-    fun getProducts(): Observable<WanEntity<ArrayList<Product>>> = Observable.just(simulationProducts())
+    fun getProducts(): Observable<WanEntity<List<Product>>> = Observable.just(simulationProducts())
 
-    private fun simulationProducts(): WanEntity<ArrayList<Product>> {
+    private fun simulationProducts(): WanEntity<List<Product>> {
         val products = ArrayList<Product>()
         val hutao = Product()
         hutao.name = "胡桃"
@@ -46,7 +46,7 @@ object ShopPingApi {
         zhongli.pictureUrl =
             "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fblog%2F202108%2F21%2F20210821192257_62b1f.thumb.1000_0.png&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1651226204&t=64f7cb601e8a8ee5285814c08fc0d1f3"
         products.addAll(arrayOf(hutao, shenli, jiutun, dishitian, axiuluo, yidou, zhongli))
-        val wanEntity = WanEntity<ArrayList<Product>>()
+        val wanEntity = WanEntity<List<Product>>()
         wanEntity.data = products
         wanEntity.code = 200
         return wanEntity

@@ -7,6 +7,7 @@ import com.hannesdorfmann.mosby3.mvi.MviActivity
 import com.hannesdorfmann.mosby3.mvi.MviPresenter
 import com.hannesdorfmann.mosby3.mvp.MvpView
 import com.zhongjh.mvilibrary.R
+import com.zhongjh.mvilibrary.utils.ScreenUtil
 
 
 /**
@@ -17,6 +18,7 @@ import com.zhongjh.mvilibrary.R
 abstract class BaseActivity<V : MvpView, P : MviPresenter<V, *>?> : MviActivity<V, P>(), MvpView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        ScreenUtil.setFullScreen(this@BaseActivity, false)
         super.onCreate(savedInstanceState)
         setContentView(initLayoutId())
         initParam(savedInstanceState)

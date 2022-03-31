@@ -21,5 +21,10 @@ object Constants {
      */
     const val CLICK_DURATION: Long = 1000
 
+    /**
+     * 状态栏高度
+     */
+    const val STATUS_BAR_HEIGHT = "zhongjh_status_bar_height"
+
 
 }

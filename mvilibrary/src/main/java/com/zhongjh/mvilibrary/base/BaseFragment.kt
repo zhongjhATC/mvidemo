@@ -27,6 +27,7 @@ abstract class BaseFragment<V : MvpView, P : MviPresenter<V, *>?> : MviFragment<
         val view: View = inflater.inflate(initLayoutId(), container, false)
         initParam(savedInstanceState)
         initListener()
+        initialize()
         return view
     }
 
@@ -44,6 +45,11 @@ abstract class BaseFragment<V : MvpView, P : MviPresenter<V, *>?> : MviFragment<
      * 初始化事件
      */
     abstract fun initListener()
+
+    /**
+     * 初始化数据
+     */
+    abstract fun initialize()
 
     private fun initDialog(): ProgressDialog {
         val progressDialog = ProgressDialog(this@BaseFragment.context)

@@ -1,7 +1,6 @@
 package com.zhongjh.mvidemo.phone.main
 
 import com.hannesdorfmann.mosby3.mvp.MvpView
-import io.reactivex.Observable
 
 /**
  *
@@ -13,6 +12,6 @@ interface MainView : MvpView {
     /**
      * Render the state in the UI
      */
-    fun render(state: MainViewState)
+    fun render(state: MainState)
 
 }
