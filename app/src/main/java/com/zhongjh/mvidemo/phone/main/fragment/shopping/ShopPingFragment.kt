@@ -3,11 +3,10 @@ package com.zhongjh.mvidemo.phone.main.fragment.shopping
 import android.os.Bundle
 import android.util.Log
 import com.zhongjh.mvidemo.R
-import com.zhongjh.mvilibrary.base.BaseApplication
+import com.zhongjh.mvidemo.view.CustomRefreshHeader
 import com.zhongjh.mvilibrary.base.BaseFragment
 import com.zhongjh.mvilibrary.constant.Constants.TAG
 import com.zhongjh.mvilibrary.rxjava.smartrefreshlayout.RxSmartRefreshLayout
-import com.zhongjh.mvilibrary.utils.StatusBarUtil
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_shopping.*
 
@@ -29,7 +28,8 @@ class ShopPingFragment : BaseFragment<ShopPingView, ShopPingPresenter>(), ShopPi
     }
 
     override fun initialize() {
-
+        // 自定义刷新
+        refreshLayout.setRefreshHeader(CustomRefreshHeader(activity))
     }
 
     override fun pullToRefreshIntent(): Observable<Boolean> {
@@ -46,12 +46,13 @@ class ShopPingFragment : BaseFragment<ShopPingView, ShopPingPresenter>(), ShopPi
 
     private fun dataState(state: ShopPingState.DataState) {
         refreshLayout.finishRefresh()
+        // 显示Banner
+        rlContentHorizontal
     }
 
     private fun errorState(state: ShopPingState.ErrorState) {
         Log.d(TAG, "ErrorState" + state.error)
         refreshLayout.finishRefresh()
     }
-
 
 }

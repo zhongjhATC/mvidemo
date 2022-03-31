@@ -30,6 +30,5 @@ class StatusBarView @JvmOverloads constructor(
 
     init {
         setup()
-        setBackgroundResource(R.color.white)
     }
 }
