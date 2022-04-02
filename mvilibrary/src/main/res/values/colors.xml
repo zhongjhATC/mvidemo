@@ -2,4 +2,6 @@
 <resources>
     <color name="white">#FFFFFF</color> <!--白色 -->
     <color name="dim_gray">#333333</color> <!--暗灰色 -->
+    <!-- 默认细线颜色 -->
+    <color name="bg_line">#dadada</color>
 </resources>

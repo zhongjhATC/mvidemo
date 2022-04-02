@@ -9,6 +9,7 @@ import com.zhongjh.mvidemo.entity.Product
 import com.zhongjh.mvidemo.entity.ShopHome
 import com.zhongjh.mvidemo.entity.WanEntity
 import com.zhongjh.mvidemo.phone.privacypolicy.PrivacyPolicyView
+import com.zhongjh.mvidemo.phone.splash.SplashState
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Function3
@@ -22,13 +23,18 @@ import io.reactivex.schedulers.Schedulers
 class ShopPingPresenter : MviBasePresenter<ShopPingView, ShopPingState>() {
 
     override fun bindIntents() {
+        // 初始化
+        val initialize: Observable<ShopPingState> =
+            getShopHome()
+                .observeOn(AndroidSchedulers.mainThread())
+        // 商城刷新
         val shopPingState: Observable<ShopPingState> =
             intent(ShopPingView::pullToRefreshIntent)
                 .subscribeOn(Schedulers.io())
                 .switchMap { getShopHome() }
                 .observeOn(AndroidSchedulers.mainThread())
-
-        subscribeViewState(shopPingState, ShopPingView::render)
+        val merged = Observable.merge(initialize, shopPingState)
+        subscribeViewState(merged, ShopPingView::render)
     }
 
     /**

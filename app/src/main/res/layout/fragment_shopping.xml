@@ -53,6 +53,7 @@
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/vTop">
@@ -69,23 +70,60 @@
                     android:id="@+id/banner"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     app:layout_constraintDimensionRatio="w,1:2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <include layout="@layout/layout_shopping_menu" />
+
+                <TextView
+                    android:textSize="18sp"
+                    android:id="@+id/tvHorizontalTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/quick_auction"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/vLineMenu" />
+
+                <TextView
+                    android:textSize="12sp"
+                    android:id="@+id/tvHorizontalTag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/bg_tag_red_corner"
+                    android:text="@string/is_the_auction"
+                    android:textColor="@color/bright_red"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvHorizontalTitle"
+                    app:layout_constraintStart_toEndOf="@+id/tvHorizontalTitle"
+                    app:layout_constraintTop_toTopOf="@+id/tvHorizontalTitle" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rlContentHorizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:paddingStart="-8dp"
+                    android:paddingEnd="-8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/banner" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvHorizontalTitle" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rlContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/rlContentHorizontal" />

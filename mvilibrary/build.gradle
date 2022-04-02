@@ -83,7 +83,7 @@ dependencies {
     //region ------------------------------------------------- 应用库 -------------------------------------------------
 
     // RecyclerView封装的Adapter
-    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7'
 
     // RecyclerView刷新布局
     api  'com.scwang.smart:refresh-layout-kernel:2.0.3'       // 核心必须依赖

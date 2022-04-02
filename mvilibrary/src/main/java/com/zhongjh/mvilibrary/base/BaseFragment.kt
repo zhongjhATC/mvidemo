@@ -1,6 +1,5 @@
 package com.zhongjh.mvilibrary.base
 
-import android.R
 import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -24,11 +23,14 @@ abstract class BaseFragment<V : MvpView, P : MviPresenter<V, *>?> : MviFragment<
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view: View = inflater.inflate(initLayoutId(), container, false)
+        return inflater.inflate(initLayoutId(), container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initParam(savedInstanceState)
         initListener()
         initialize()
-        return view
     }
 
     /**

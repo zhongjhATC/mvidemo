@@ -9,4 +9,12 @@
     <string name="exchange">交流</string>
     <string name="my">我的</string>
     <string name="shopping_trolley">购物车</string>
+    <string name="all">全部</string>
+    <string name="classify">分类</string>
+    <string name="rim">周边</string>
+    <string name="integral">积分</string>
+    <string name="consult">咨询</string>
+    <string name="product_picture">产品图片</string>
+    <string name="quick_auction">快速竞拍</string>
+    <string name="is_the_auction">正在拍卖</string>
 </resources>
