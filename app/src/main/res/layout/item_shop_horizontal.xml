@@ -11,8 +11,8 @@
         android:id="@+id/imgProduct"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/product_picture"
         android:scaleType="centerCrop"
+        android:contentDescription="@string/product_picture"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/ic_launcher" />
@@ -30,9 +30,9 @@
         android:id="@+id/tvClosingTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/closing_time_auction"
         android:textColor="@color/aurora_gray"
-        app:layout_constraintTop_toBottomOf="@+id/tvProductName"
-        tools:text="结拍:   今日 16:00" />
+        app:layout_constraintTop_toBottomOf="@+id/tvProductName" />
 
     <TextView
         android:id="@+id/tvPrice"

@@ -21,7 +21,7 @@
         android:id="@+id/tvProduct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="4dp"
         android:text="@string/all"
         app:layout_constraintEnd_toEndOf="@+id/imgProduct"
         app:layout_constraintStart_toStartOf="@+id/imgProduct"
@@ -40,7 +40,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="4dp"
         android:text="@string/classify"
         app:layout_constraintEnd_toEndOf="@+id/imgClass"
         app:layout_constraintStart_toStartOf="@+id/imgClass"
@@ -59,7 +59,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="4dp"
         android:text="@string/rim"
         app:layout_constraintEnd_toEndOf="@+id/imgPeripheralProduct"
         app:layout_constraintStart_toStartOf="@+id/imgPeripheralProduct"
@@ -78,7 +78,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="4dp"
         android:text="@string/integral"
         app:layout_constraintEnd_toEndOf="@+id/imgIntegral"
         app:layout_constraintStart_toStartOf="@+id/imgIntegral"
@@ -98,7 +98,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="4dp"
         android:text="@string/consult"
         app:layout_constraintEnd_toEndOf="@+id/imgConsult"
         app:layout_constraintStart_toStartOf="@+id/imgConsult"
@@ -108,7 +108,7 @@
         android:id="@+id/vLineMenu"
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="4dp"
         android:background="@color/bg_line"
         app:layout_constraintTop_toBottomOf="@+id/tvProduct" />
 
