@@ -28,12 +28,19 @@ class ShopPingPresenter : MviBasePresenter<ShopPingView, ShopPingState>() {
             getShopHome()
                 .observeOn(AndroidSchedulers.mainThread())
         // 商城刷新
-        val shopPingState: Observable<ShopPingState> =
+        val shopPingRefresh: Observable<ShopPingState> =
             intent(ShopPingView::pullToRefreshIntent)
                 .subscribeOn(Schedulers.io())
                 .switchMap { getShopHome() }
                 .observeOn(AndroidSchedulers.mainThread())
-        val merged = Observable.merge(initialize, shopPingState)
+        // 商城加载下一页
+        val shopPingLoad: Observable<ShopPingState> =
+            intent(ShopPingView::loadNextPageIntent)
+                .subscribeOn(Schedulers.io())
+                .switchMap { loadNextProduct() }
+                .observeOn(AndroidSchedulers.mainThread())
+
+        val merged = Observable.merge(initialize, shopPingRefresh, shopPingLoad)
         subscribeViewState(merged, ShopPingView::render)
     }
 
@@ -53,7 +60,7 @@ class ShopPingPresenter : MviBasePresenter<ShopPingView, ShopPingState>() {
             .subscribeOn(Schedulers.io())
             .map<ShopPingState> { ShopPingState.DataState(it) }
             .startWith(ShopPingState.LoadingState)
-            .onErrorReturn { ShopPingState.ErrorState(it) }
+            .onErrorReturn { ShopPingState.ErrorState(it.message) }
     }
 
     /**
@@ -69,6 +76,25 @@ class ShopPingPresenter : MviBasePresenter<ShopPingView, ShopPingState>() {
         shopHome.productsIn = productsIn.data
         shopHome.products = products.data
         return shopHome
+    }
+
+    /**
+     * 获取产品的下一页
+     */
+    private fun loadNextProduct(): Observable<ShopPingState> {
+        // 商城显示的产品
+        val observableProduct = ShopPingApi.getProducts()
+        return observableProduct
+            .subscribeOn(Schedulers.io())
+            .map {
+                if (it.code == 200) {
+                    ShopPingState.LoadNextProductState(it.data)
+                } else {
+                    ShopPingState.ErrorState(it.msg)
+                }
+            }
+            .startWith(ShopPingState.LoadingState)
+            .onErrorReturn { ShopPingState.ErrorState(it.message) }
     }
 
 }

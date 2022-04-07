@@ -1,4 +1,4 @@
-package com.zhongjh.mvilibrary.rxjava.smartrefreshlayout
+package com.zhongjh.mvilibrary.rxjava.smartloadlayout
 
 import androidx.annotation.CheckResult
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
@@ -6,7 +6,7 @@ import com.zhongjh.mvilibrary.rxjava.RxPreconditions
 import io.reactivex.Observable
 import io.reactivex.functions.Consumer
 
-class RxSmartRefreshLayout private constructor() {
+class RxSmartLoadLayout private constructor() {
 
     companion object {
         /**
@@ -17,11 +17,11 @@ class RxSmartRefreshLayout private constructor() {
          * to free this reference.
          */
         @CheckResult
-        fun refreshes(
+        fun load(
             view: SmartRefreshLayout
         ): Observable<Any?> {
             RxPreconditions.checkNotNull(view, "view == null")
-            return SmartRefreshLayoutObservable(view)
+            return SmartLoadLayoutObservable(view)
         }
 
         /**
@@ -32,16 +32,15 @@ class RxSmartRefreshLayout private constructor() {
          * to free this reference.
          */
         @CheckResult
-        fun refreshing(
+        fun loading(
             view: SmartRefreshLayout
         ): Consumer<in Boolean> {
             RxPreconditions.checkNotNull(view, "view == null")
-
             return Consumer { value ->
                 if (value) {
-                    view.autoRefresh()
+                    view.autoLoadMore()
                 } else {
-                    view.finishRefresh()
+                    view.finishLoadMore()
                 }
             }
         }

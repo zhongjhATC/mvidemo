@@ -19,4 +19,7 @@
     <string name="is_the_auction">正在拍卖</string>
     <string name="more">更多</string>
     <string name="closing_time_auction">结拍: 今日 16:00</string>
+    <string name="fast_search">快速搜索</string>
+    <string name="search">搜索</string>
+    <string name="search_history">搜索历史</string>
 </resources>

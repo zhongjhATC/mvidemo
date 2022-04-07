@@ -1,13 +1,14 @@
 package com.zhongjh.mvidemo.phone.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.core.content.res.ResourcesCompat
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.zhongjh.mvidemo.R
 import com.zhongjh.mvidemo.phone.main.viewpager.ViewPagerFragmentStateAdapter
+import com.zhongjh.mvidemo.phone.search.SearchActivity
 import com.zhongjh.mvilibrary.base.BaseActivity
 import com.zhongjh.mvilibrary.base.BaseApplication
-import com.zhongjh.mvilibrary.utils.ScreenUtil
 import com.zhongjh.mvilibrary.utils.StatusBarUtil
 import devlight.io.library.ntb.NavigationTabBar
 import devlight.io.library.ntb.NavigationTabBar.OnTabBarSelectedIndexListener
@@ -52,6 +53,9 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView {
         BaseApplication.instance.init()
         initViewPager()
         initTabBar()
+        // 打开搜索界面
+        val intent = Intent(this, SearchActivity::class.java)
+        startActivity(intent)
     }
 
     override fun createPresenter() = MainPresenter()

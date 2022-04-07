@@ -18,6 +18,13 @@ interface ShopPingView : MvpView {
     fun pullToRefreshIntent(): Observable<Boolean>
 
     /**
+     * 对“下拉加载”做出反应的意图
+     *
+     * @return 发出的item布尔值可以被忽略，因为它总是为真
+     */
+    fun loadNextPageIntent() : Observable<Boolean>
+
+    /**
      * Render the state in the UI
      */
     fun render(state: ShopPingState)

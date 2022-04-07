@@ -36,4 +36,8 @@ android {
 dependencies {
     implementation project(path: ':mvilibrary')
 
+    // tab指标 https://github.com/hackware1993/MagicIndicator
+    api 'com.github.hackware1993:MagicIndicator:1.7.0'
+
+
 }

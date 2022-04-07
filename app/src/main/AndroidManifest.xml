@@ -24,6 +24,9 @@
         <activity
             android:name=".phone.main.MainActivity"
             android:theme="@style/Theme.MviDemo" />
+        <activity
+            android:name=".phone.search.SearchActivity"
+            android:theme="@style/Theme.MviDemo" />
     </application>
 
 </manifest>

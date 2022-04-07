@@ -13,6 +13,7 @@ import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import okhttp3.Cache
 import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient
 import okhttp3.internal.platform.Platform.Companion.INFO
@@ -44,7 +45,7 @@ class RetrofitClient private constructor(
     /**
      * 缓存
      */
-    private var httpCacheDirectory: File? = null
+    private lateinit var httpCacheDirectory: File
 
     /**
      * create you ApiService
@@ -98,10 +99,13 @@ class RetrofitClient private constructor(
 
 
     init {
-        if (httpCacheDirectory == null) {
-            httpCacheDirectory = File(Utils.getApp().cacheDir, "http_cache")
-        }
+        httpCacheDirectory = File(Utils.getApp().cacheDir, "http_cache")
+        // 设置缓存 10M
+        val cacheSize = 10 * 1024 * 1024L
+        val cache = Cache(httpCacheDirectory, cacheSize)
+
         val okHttpClientBuild: OkHttpClient.Builder = OkHttpClient.Builder()
+            .cache(cache)
             .cookieJar(CookieJarImpl(PersistentCookieStore(Utils.getApp())))
             .addInterceptor(BaseInterceptor(headers))
             .addInterceptor(CacheInterceptor(Utils.getApp()))
