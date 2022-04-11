@@ -3,13 +3,8 @@ package com.zhongjh.mvidemo.phone.search
 import com.hannesdorfmann.mosby3.mvi.MviBasePresenter
 import com.jshvarts.mosbymvi.data.ShopPingApi
 import com.zhongjh.mvidemo.entity.SearchConditions
-import com.zhongjh.mvidemo.entity.SearchType
 import com.zhongjh.mvidemo.entity.SearchType.Product
 import com.zhongjh.mvidemo.entity.SearchType.YuanShen
-import com.zhongjh.mvidemo.phone.main.fragment.shopping.ShopPingState
-import com.zhongjh.mvidemo.phone.main.fragment.shopping.ShopPingView
-import com.zhongjh.mvidemo.phone.splash.SplashState
-import com.zhongjh.mvidemo.phone.splash.SplashView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -41,7 +36,7 @@ class SearchPresenter : MviBasePresenter<SearchView, SearchState>() {
             }
         return observableProductIn
             .subscribeOn(Schedulers.io())
-            .map<SearchState> { SearchState.SearchProduct(it, searchConditions) }
+            .map<SearchState> { SearchState.SearchProductState(it, searchConditions) }
             .startWith(SearchState.LoadingState)
             .onErrorReturn { SearchState.ErrorState(it.message) }
 

@@ -13,7 +13,6 @@ import com.zhongjh.mvidemo.phone.main.fragment.shopping.adapter.ShopPingVertical
 import com.zhongjh.mvidemo.phone.search.SearchActivity
 import com.zhongjh.mvidemo.view.CustomRefreshHeader
 import com.zhongjh.mvilibrary.base.BaseFragment
-import com.zhongjh.mvilibrary.constant.Constants.TAG
 import com.zhongjh.mvilibrary.rxjava.smartloadlayout.RxSmartLoadLayout
 import com.zhongjh.mvilibrary.rxjava.smartrefreshlayout.RxSmartRefreshLayout
 import io.reactivex.Observable
@@ -25,6 +24,8 @@ import kotlinx.android.synthetic.main.fragment_shopping.*
  * @date 2022/3/29
  */
 class ShopPingFragment : BaseFragment<ShopPingView, ShopPingPresenter>(), ShopPingView {
+
+    private val mTag = ShopPingFragment::class.qualifiedName
 
     var mShopPingHorizontalAdapter = ShopPingHorizontalAdapter()
     var mShopPingVerticalAdapter = ShopPingVerticalAdapter()
@@ -74,7 +75,7 @@ class ShopPingFragment : BaseFragment<ShopPingView, ShopPingPresenter>(), ShopPi
         when (state) {
             is ShopPingState.DataState -> dataState(state)
             is ShopPingState.ErrorState -> errorState(state)
-            is ShopPingState.LoadingState -> Log.d(TAG, "LoadingState")
+            is ShopPingState.LoadingState -> Log.d(mTag, "LoadingState")
             is ShopPingState.LoadNextProductState -> loadNextProductState(state)
         }
     }
@@ -100,7 +101,7 @@ class ShopPingFragment : BaseFragment<ShopPingView, ShopPingPresenter>(), ShopPi
      * 报错数据
      */
     private fun errorState(state: ShopPingState.ErrorState) {
-        Log.d(TAG, "ErrorState" + state.error)
+        Log.d(mTag, "ErrorState" + state.error)
         refreshLayout.finishRefresh()
     }
 

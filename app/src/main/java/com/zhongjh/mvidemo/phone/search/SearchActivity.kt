@@ -9,11 +9,9 @@ import com.zhongjh.mvidemo.R
 import com.zhongjh.mvidemo.entity.SearchConditions
 import com.zhongjh.mvidemo.entity.SearchType
 import com.zhongjh.mvidemo.phone.main.fragment.shopping.ShopPingFragment
-import com.zhongjh.mvidemo.phone.main.fragment.shopping.ShopPingState
 import com.zhongjh.mvidemo.phone.search.adapter.SearchNavigatorAdapter
 import com.zhongjh.mvidemo.phone.search.adapter.SearchViewPagerAdapter
 import com.zhongjh.mvilibrary.base.BaseActivity
-import com.zhongjh.mvilibrary.constant.Constants.TAG
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_search.*
 import net.lucode.hackware.magicindicator.buildins.UIUtil
@@ -22,12 +20,17 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
 
 class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView {
 
+    private val mTag = SearchActivity::class.qualifiedName
+
     /**
      * 当前的搜索的条件
      */
-    private val searchConditions = SearchConditions()
-    private lateinit var commonNavigatorAdapter: SearchNavigatorAdapter
-    private val tvSearchClickObservable: Observable<Boolean> by lazy {
+    private val mSearchConditions = SearchConditions()
+    private lateinit var mCommonNavigatorAdapter: SearchNavigatorAdapter
+    private val mSearchViewPagerAdapter: SearchViewPagerAdapter by lazy {
+        SearchViewPagerAdapter(supportFragmentManager, lifecycle)
+    }
+    private val mTvSearchClickObservable: Observable<Boolean> by lazy {
         RxView.clicks(tvSearch).share().map { true }
     }
 
@@ -47,27 +50,27 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView {
     override fun createPresenter() = SearchPresenter()
 
     override fun searchIntent(): Observable<SearchConditions> {
-        return tvSearchClickObservable
+        return mTvSearchClickObservable
             // filter完成一个条件过滤和筛选,如果filter判断的值为真，则交给观察者，否则跳过
             .filter { etSearch.length() <= 0 }
             // 转换成搜索文本的数据
             .map {
-                searchConditions.content = etSearch.text.toString()
-                searchConditions
+                mSearchConditions.content = etSearch.text.toString()
+                mSearchConditions
             }
     }
 
     override fun render(state: SearchState) {
         when (state) {
-            is SearchState.ErrorState -> TODO()
-            is SearchState.LoadingState -> TODO()
-            is SearchState.SearchAuction -> TODO()
-            is SearchState.SearchBar -> TODO()
-            is SearchState.SearchConsult -> TODO()
-            is SearchState.SearchInvitation -> TODO()
-            is SearchState.SearchProduct -> TODO()
-            is SearchState.SearchUser -> TODO()
-            is SearchState.SearchYuanShen -> TODO()
+            is SearchState.ErrorState -> Log.d(mTag, "LoadingState")
+            is SearchState.LoadingState -> Log.d(mTag, "LoadingState")
+            is SearchState.SearchAuctionState -> Log.d(mTag, "LoadingState")
+            is SearchState.SearchBarState -> Log.d(mTag, "LoadingState")
+            is SearchState.SearchConsultState -> Log.d(mTag, "LoadingState")
+            is SearchState.SearchInvitationState -> Log.d(mTag, "LoadingState")
+            is SearchState.SearchProductState -> searchProductState()
+            is SearchState.SearchUserState -> Log.d(mTag, "LoadingState")
+            is SearchState.SearchYuanShenState -> Log.d(mTag, "LoadingState")
         }
     }
 
@@ -85,8 +88,8 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView {
         }
 
         val commonNavigator = CommonNavigator(this)
-        commonNavigatorAdapter = SearchNavigatorAdapter(listTitle, viewPager2)
-        commonNavigator.adapter = commonNavigatorAdapter
+        mCommonNavigatorAdapter = SearchNavigatorAdapter(listTitle, viewPager2)
+        commonNavigator.adapter = mCommonNavigatorAdapter
         commonNavigator.leftPadding = UIUtil.dip2px(this, 10.0)
         commonNavigator.rightPadding = UIUtil.dip2px(this, 15.0)
         magicIndicator.navigator = commonNavigator
@@ -112,12 +115,13 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView {
             }
 
             override fun onPageSelected(position: Int) {
+                mSearchViewPagerAdapter.searchContent = mSearchConditions.content
                 super.onPageSelected(position)
                 magicIndicator.onPageSelected(position)
                 // 根据索引构建一个enum
                 val searchType = SearchType.match(position)
                 searchType?.let {
-                    searchConditions.type = it
+                    mSearchConditions.type = it
                 }
             }
 
@@ -126,14 +130,14 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView {
                 magicIndicator.onPageScrollStateChanged(state)
             }
         })
-
-        val homeFragmentPageAdapter = SearchViewPagerAdapter(
-            supportFragmentManager,
-            lifecycle
-        )
-        viewPager2.adapter = homeFragmentPageAdapter
+        viewPager2.adapter = mSearchViewPagerAdapter
         viewPager2.offscreenPageLimit = listFragments.size
     }
 
+    /**
+     * 查询数据
+     */
+    private fun searchProductState() {
 
+    }
 }

@@ -11,13 +11,13 @@ sealed class SearchState {
 
     object LoadingState : SearchState()
     data class ErrorState(val error: String?) : SearchState()
-    data class SearchYuanShen(val products: WanEntity<List<Product>>,val searchConditions: SearchConditions) : SearchState()
-    data class SearchProduct(val products: WanEntity<List<Product>>,val searchConditions: SearchConditions) : SearchState()
-    data class SearchAuction(val products: WanEntity<List<Product>>,val searchConditions: SearchConditions) : SearchState()
-    data class SearchInvitation(val products: WanEntity<List<Product>>,val searchConditions: SearchConditions) : SearchState()
-    data class SearchConsult(val products: WanEntity<List<Product>>,val searchConditions: SearchConditions) : SearchState()
-    data class SearchUser(val products: WanEntity<List<Product>>,val searchConditions: SearchConditions) : SearchState()
-    data class SearchBar(val products: WanEntity<List<Product>>,val searchConditions: SearchConditions) : SearchState()
+    data class SearchYuanShenState(val products: WanEntity<List<Product>>, val searchConditions: SearchConditions) : SearchState()
+    data class SearchProductState(val products: WanEntity<List<Product>>, val searchConditions: SearchConditions) : SearchState()
+    data class SearchAuctionState(val products: WanEntity<List<Product>>, val searchConditions: SearchConditions) : SearchState()
+    data class SearchInvitationState(val products: WanEntity<List<Product>>, val searchConditions: SearchConditions) : SearchState()
+    data class SearchConsultState(val products: WanEntity<List<Product>>, val searchConditions: SearchConditions) : SearchState()
+    data class SearchUserState(val products: WanEntity<List<Product>>, val searchConditions: SearchConditions) : SearchState()
+    data class SearchBarState(val products: WanEntity<List<Product>>, val searchConditions: SearchConditions) : SearchState()
 
 }
 
