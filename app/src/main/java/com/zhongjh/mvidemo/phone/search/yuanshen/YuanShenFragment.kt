@@ -9,7 +9,9 @@ import com.zhongjh.mvidemo.phone.search.yuanshen.adapter.YuanShenVerticalAdapter
 import com.zhongjh.mvilibrary.base.BaseFragment
 import io.reactivex.Observable
 import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_yuanshen.*
+
 
 /**
  *
@@ -21,8 +23,10 @@ class YuanShenFragment : BaseFragment<YuanShenView, YuanShenPresenter>(), YuanSh
     private val mTag = YuanShenFragment::class.qualifiedName
 
     private val mYuanShenVerticalAdapter = YuanShenVerticalAdapter()
-    private lateinit var mSearchObserver: Observer<in Any>
-    private lateinit var mSearchObservable : Observable<String>
+    private var mSearchObserver = Observer<String>()
+
+
+    private lateinit var mSearchObservable: Observable<String>
 
     override fun initLayoutId() = R.layout.fragment_yuanshen
 
@@ -33,6 +37,28 @@ class YuanShenFragment : BaseFragment<YuanShenView, YuanShenPresenter>(), YuanSh
     }
 
     override fun initialize() {
+        val observer: Observer<String> = object : Observer<String> {
+            override fun onSubscribe(d: Disposable) {
+                //解除订阅
+                Log.i(TAG, "onSubscribe--->")
+            }
+
+            override fun onNext(s: String) {
+                //发送事件时观察者回调
+                Log.i(TAG, "onNext--->$s")
+            }
+
+            override fun onError(e: Throwable) {
+                //发送事件时观察者回调(事件序列发生异常)
+                Log.i(TAG, "onError--->")
+            }
+
+            override fun onComplete() {
+                //发送事件时观察者回调(事件序列发送完毕)
+                Log.i(TAG, "onComplete--->")
+            }
+        }
+
         // 初始化列表竖向列表
         rlContent.layoutManager = GridLayoutManager(context, 2)
         rlContent.adapter = mYuanShenVerticalAdapter

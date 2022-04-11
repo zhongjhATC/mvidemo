@@ -34,9 +34,8 @@ class SearchViewPagerAdapter(private val fragmentManager: FragmentManager, lifec
      * 如果传值是“”，也不查询
      */
     override fun getItemId(position: Int): Long {
-        val id = position.toLong()
-        val yuanShenFragment = getPageFragment(id) as? YuanShenFragment
-        yuanShenFragment.search(searchContent)
+        val yuanShenFragment = getPageFragment(position.toLong()) as? YuanShenFragment
+        yuanShenFragment?.search(searchContent)
         return position.toLong()
     }
 
