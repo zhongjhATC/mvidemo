@@ -10,7 +10,7 @@ class SearchConditions {
     /**
      * 搜索的内容
      */
-    lateinit var content: String
+    var content: String = ""
 
     /**
      * 搜索的类型

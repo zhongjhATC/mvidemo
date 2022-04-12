@@ -12,12 +12,18 @@ import com.zhongjh.mvidemo.phone.main.fragment.shopping.ShopPingFragment
 import com.zhongjh.mvidemo.phone.search.adapter.SearchNavigatorAdapter
 import com.zhongjh.mvidemo.phone.search.adapter.SearchViewPagerAdapter
 import com.zhongjh.mvilibrary.base.BaseActivity
+import com.zhongjh.mvilibrary.listener.ThrottleOnClickListener
+import com.zhongjh.mvilibrary.rxjava.textview.TextViewTextChangeNullEventObservable
+import com.zhongjh.mvilibrary.utils.ToastUtils
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_search.*
 import net.lucode.hackware.magicindicator.buildins.UIUtil
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
+import java.util.concurrent.TimeUnit
 
-
+/**
+ * 搜索的Activity
+ */
 class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView {
 
     private val mTag = SearchActivity::class.qualifiedName
@@ -26,12 +32,24 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView {
      * 当前的搜索的条件
      */
     private val mSearchConditions = SearchConditions()
+
+    /**
+     * 用于记录索引，点击搜索时随时更新该position
+     */
+    private var mViewPagerPosition = 0
+
     private lateinit var mCommonNavigatorAdapter: SearchNavigatorAdapter
     private val mSearchViewPagerAdapter: SearchViewPagerAdapter by lazy {
         SearchViewPagerAdapter(supportFragmentManager, lifecycle)
     }
     private val mTvSearchClickObservable: Observable<Boolean> by lazy {
         RxView.clicks(tvSearch).share().map { true }
+    }
+    private val mTvSearchTextChangesObservable: Observable<Boolean> by lazy {
+        TextViewTextChangeNullEventObservable(etSearch) {
+            // 隐藏列表，显示快速搜索框
+            ToastUtils.showShort("隐藏列表，显示快速搜索框")
+        }.share().map { true }
     }
 
     override fun initLayoutId() = R.layout.activity_search
@@ -40,7 +58,11 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView {
     }
 
     override fun initListener() {
-
+        imgBack.setOnClickListener(object : ThrottleOnClickListener() {
+            override fun onClick() {
+                this@SearchActivity.finish()
+            }
+        })
     }
 
     override fun initialize() {
@@ -49,10 +71,21 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView {
 
     override fun createPresenter() = SearchPresenter()
 
-    override fun searchIntent(): Observable<SearchConditions> {
+    override fun searchClickIntent(): Observable<SearchConditions> {
         return mTvSearchClickObservable
             // filter完成一个条件过滤和筛选,如果filter判断的值为真，则交给观察者，否则跳过
-            .filter { etSearch.length() <= 0 }
+            .filter { etSearch.length() > 0 }
+            // 转换成搜索文本的数据
+            .map {
+                mSearchConditions.content = etSearch.text.toString()
+                mSearchConditions
+            }
+    }
+
+    override fun searchTextChangesIntent(): Observable<SearchConditions> {
+        return mTvSearchTextChangesObservable
+            // 满足一定时间延时后才发射数据
+            .debounce(1, TimeUnit.SECONDS)
             // 转换成搜索文本的数据
             .map {
                 mSearchConditions.content = etSearch.text.toString()
@@ -62,15 +95,7 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView {
 
     override fun render(state: SearchState) {
         when (state) {
-            is SearchState.ErrorState -> Log.d(mTag, "LoadingState")
-            is SearchState.LoadingState -> Log.d(mTag, "LoadingState")
-            is SearchState.SearchAuctionState -> Log.d(mTag, "LoadingState")
-            is SearchState.SearchBarState -> Log.d(mTag, "LoadingState")
-            is SearchState.SearchConsultState -> Log.d(mTag, "LoadingState")
-            is SearchState.SearchInvitationState -> Log.d(mTag, "LoadingState")
-            is SearchState.SearchProductState -> searchProductState()
-            is SearchState.SearchUserState -> Log.d(mTag, "LoadingState")
-            is SearchState.SearchYuanShenState -> Log.d(mTag, "LoadingState")
+            is SearchState.SearchNoticeState -> searchNoticeState()
         }
     }
 
@@ -115,7 +140,6 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView {
             }
 
             override fun onPageSelected(position: Int) {
-                mSearchViewPagerAdapter.searchContent = mSearchConditions.content
                 super.onPageSelected(position)
                 magicIndicator.onPageSelected(position)
                 // 根据索引构建一个enum
@@ -123,6 +147,8 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView {
                 searchType?.let {
                     mSearchConditions.type = it
                 }
+                mSearchViewPagerAdapter.search(position, mSearchConditions.content)
+                mViewPagerPosition = position
             }
 
             override fun onPageScrollStateChanged(state: Int) {
@@ -137,7 +163,8 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView {
     /**
      * 查询数据
      */
-    private fun searchProductState() {
-
+    private fun searchNoticeState() {
+        Log.d(mTag, "searchNoticeState")
+        mSearchViewPagerAdapter.search(mViewPagerPosition, mSearchConditions.content)
     }
 }

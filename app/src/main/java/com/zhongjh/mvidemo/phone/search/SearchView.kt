@@ -13,9 +13,14 @@ import io.reactivex.Observable
 interface SearchView : MvpView {
 
     /**
-     * 搜索的意图
+     * 点击搜索的意图
      */
-    fun searchIntent(): Observable<SearchConditions>
+    fun searchClickIntent(): Observable<SearchConditions>
+
+    /**
+     * 搜索文本改变内容的意图
+     */
+    fun searchTextChangesIntent() : Observable<SearchConditions>
 
     /**
      * Render the state in the UI

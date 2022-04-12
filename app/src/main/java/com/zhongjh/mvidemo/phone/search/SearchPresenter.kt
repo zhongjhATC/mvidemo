@@ -1,12 +1,8 @@
 package com.zhongjh.mvidemo.phone.search
 
 import com.hannesdorfmann.mosby3.mvi.MviBasePresenter
-import com.jshvarts.mosbymvi.data.ShopPingApi
 import com.zhongjh.mvidemo.entity.SearchConditions
-import com.zhongjh.mvidemo.entity.SearchType.Product
-import com.zhongjh.mvidemo.entity.SearchType.YuanShen
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 /**
@@ -18,28 +14,23 @@ class SearchPresenter : MviBasePresenter<SearchView, SearchState>() {
 
     override fun bindIntents() {
         // 搜索
-        val search: Observable<SearchState> =
-            intent(SearchView::searchIntent)
+        val searchClick: Observable<SearchState> =
+            intent(SearchView::searchClickIntent)
                 .subscribeOn(Schedulers.io())
                 .switchMap { search(it) }
-                .observeOn(AndroidSchedulers.mainThread())
-        subscribeViewState(search, SearchView::render)
+
+        val searchTextChanges: Observable<SearchState> =
+            intent(SearchView::searchTextChangesIntent)
+                .subscribeOn(Schedulers.io())
+                .switchMap { search(it) }
+
+        val merged = Observable.merge(searchClick, searchTextChanges)
+
+        subscribeViewState(merged, SearchView::render)
     }
 
     private fun search(searchConditions: SearchConditions): Observable<SearchState> {
-        // 判断类型
-        val observableProductIn =
-            when (searchConditions.type) {
-                YuanShen -> ShopPingApi.getProducts()
-                Product -> ShopPingApi.getProducts()
-                else -> ShopPingApi.getProducts()
-            }
-        return observableProductIn
-            .subscribeOn(Schedulers.io())
-            .map<SearchState> { SearchState.SearchProductState(it, searchConditions) }
-            .startWith(SearchState.LoadingState)
-            .onErrorReturn { SearchState.ErrorState(it.message) }
-
+        return Observable.just(SearchState.SearchNoticeState(searchConditions))
     }
 
 }

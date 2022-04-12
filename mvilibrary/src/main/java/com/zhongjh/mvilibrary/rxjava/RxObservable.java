@@ -14,38 +14,30 @@ import io.reactivex.android.MainThreadDisposable;
  */
 final class RxObservable extends Observable<Object> {
 
-    private final View view;
-
-    RxObservable(View view) {
-        this.view = view;
-    }
-
-    @Override protected void subscribeActual(Observer<? super Object> observer) {
+    @Override
+    protected void subscribeActual(Observer<? super Object> observer) {
         if (!RxPreconditions.Companion.checkMainThread(observer)) {
             return;
         }
-        RxObservable.Listener listener = new RxObservable.Listener(view, observer);
+        RxObservable.Listener listener = new RxObservable.Listener(observer);
         observer.onSubscribe(listener);
-        view.setOnClickListener(listener);
     }
 
-    static final class Listener extends MainThreadDisposable implements View.OnClickListener {
-        private final View view;
+    static final class Listener extends MainThreadDisposable {
         private final Observer<? super Object> observer;
 
-        Listener(View view, Observer<? super Object> observer) {
-            this.view = view;
+        Listener(Observer<? super Object> observer) {
             this.observer = observer;
         }
 
-        @Override public void onClick(View v) {
+        public void onNext() {
             if (!isDisposed()) {
                 observer.onNext(Notification.INSTANCE);
             }
         }
 
-        @Override protected void onDispose() {
-            view.setOnClickListener(null);
+        @Override
+        protected void onDispose() {
         }
     }
 }
