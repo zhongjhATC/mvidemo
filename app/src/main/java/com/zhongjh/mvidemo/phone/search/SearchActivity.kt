@@ -2,6 +2,7 @@ package com.zhongjh.mvidemo.phone.search
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.jakewharton.rxbinding2.view.RxView
@@ -47,8 +48,7 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView {
     }
     private val mTvSearchTextChangesObservable: Observable<Boolean> by lazy {
         TextViewTextChangeNullEventObservable(etSearch) {
-            // 隐藏列表，显示快速搜索框
-            ToastUtils.showShort("隐藏列表，显示快速搜索框")
+            showSearchView()
         }.share().map { true }
     }
 
@@ -166,5 +166,21 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView {
     private fun searchNoticeState() {
         Log.d(mTag, "searchNoticeState")
         mSearchViewPagerAdapter.search(mViewPagerPosition, mSearchConditions.content)
+    }
+
+    /**
+     * 显示搜索列表，隐藏查询出来的产品列表
+     */
+    private fun showSearchView() {
+        groupSearchHistory.visibility = View.VISIBLE
+        viewPager2.visibility = View.GONE
+    }
+
+    /**
+     * 显示产品列表，隐藏索列表
+     */
+    fun showDataListView() {
+        groupSearchHistory.visibility = View.GONE
+        viewPager2.visibility = View.VISIBLE
     }
 }

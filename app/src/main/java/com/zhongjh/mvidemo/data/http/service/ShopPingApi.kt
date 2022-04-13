@@ -3,7 +3,6 @@ package com.jshvarts.mosbymvi.data
 import com.zhongjh.mvidemo.entity.Product
 import com.zhongjh.mvidemo.entity.WanEntity
 import io.reactivex.Observable
-import java.util.Random
 
 /**
  * 商城的有关接口
@@ -17,11 +16,11 @@ object ShopPingApi {
 
     private fun simulationProducts(): WanEntity<List<Product>> {
         val products = ArrayList<Product>()
-        val leishen = Product()
-        leishen.name = "雷神"
-        leishen.pictureUrl =
+        val leiShen = Product()
+        leiShen.name = "雷神"
+        leiShen.pictureUrl =
             "https://img.jiaochengzhijia.com/uploadfile/2021/0821/20210821194851110.png"
-        leishen.price = "648"
+        leiShen.price = "648"
         val hutao = Product()
         hutao.name = "胡桃"
         hutao.pictureUrl =
@@ -57,7 +56,7 @@ object ShopPingApi {
         zhongli.pictureUrl =
             "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fblog%2F202108%2F21%2F20210821192257_62b1f.thumb.1000_0.png&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1651226204&t=64f7cb601e8a8ee5285814c08fc0d1f3"
         zhongli.price = "648"
-        products.addAll(arrayOf(leishen, hutao, shenli, jiutun, dishitian, axiuluo, yidou, zhongli))
+        products.addAll(arrayOf(leiShen, hutao, shenli, jiutun, dishitian, axiuluo, yidou, zhongli))
         val wanEntity = WanEntity<List<Product>>()
         wanEntity.data = products
         wanEntity.code = 200

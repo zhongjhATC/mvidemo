@@ -3,13 +3,12 @@ package com.zhongjh.mvidemo.phone.search.yuanshen
 import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
-import com.jakewharton.rxbinding2.internal.Notification
+import com.blankj.utilcode.util.KeyboardUtils
 import com.zhongjh.mvidemo.R
+import com.zhongjh.mvidemo.phone.search.SearchActivity
 import com.zhongjh.mvidemo.phone.search.yuanshen.adapter.YuanShenVerticalAdapter
 import com.zhongjh.mvilibrary.base.BaseFragment
 import io.reactivex.Observable
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_yuanshen.*
 
@@ -77,6 +76,11 @@ class YuanShenFragment : BaseFragment<YuanShenView, YuanShenPresenter>(), YuanSh
         // 显示竖向数据
         mYuanShenVerticalAdapter.setList(state.products.data)
         mYuanShenVerticalAdapter.notifyDataSetChanged()
+        // 隐藏软键盘
+        KeyboardUtils.hideSoftInput(activity)
+        if (activity is SearchActivity) {
+            (activity as SearchActivity).showDataListView()
+        }
     }
 
     /**

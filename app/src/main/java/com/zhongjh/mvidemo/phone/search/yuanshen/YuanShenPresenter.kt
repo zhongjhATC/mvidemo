@@ -5,6 +5,7 @@ import com.jshvarts.mosbymvi.data.ShopPingApi
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 
 /**
  *
@@ -26,7 +27,8 @@ class YuanShenPresenter : MviBasePresenter<YuanShenView, YuanShenState>() {
     private fun search(search: String): Observable<YuanShenState> {
         return if (search.isEmpty()) {
             Observable.just(YuanShenState.SearchNotStartedYet)
-        } else ShopPingApi.getProducts()
+        } else
+            ShopPingApi.getProducts()
             .subscribeOn(Schedulers.io())
             .map<YuanShenState> { YuanShenState.DataState(it) }
             .startWith(YuanShenState.LoadingState)
