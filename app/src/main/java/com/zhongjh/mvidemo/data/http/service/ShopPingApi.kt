@@ -3,6 +3,7 @@ package com.jshvarts.mosbymvi.data
 import com.zhongjh.mvidemo.entity.Product
 import com.zhongjh.mvidemo.entity.WanEntity
 import io.reactivex.Observable
+import java.util.concurrent.TimeUnit
 
 /**
  * 商城的有关接口
@@ -12,7 +13,7 @@ object ShopPingApi {
     /**
      * 获取商品
      */
-    fun getProducts(): Observable<WanEntity<List<Product>>> = Observable.just(simulationProducts())
+    fun getProducts(): Observable<WanEntity<List<Product>>> = Observable.just(simulationProducts()).delay(1, TimeUnit.SECONDS);
 
     private fun simulationProducts(): WanEntity<List<Product>> {
         val products = ArrayList<Product>()
