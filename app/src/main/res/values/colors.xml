@@ -9,7 +9,7 @@
 
     <color name="grey">#808080</color> <!--灰色 -->
     <color name="off_white">#F7F7F7</color> <!-- 灰白色 -->
-    <color name="aurora_gray">#EAEAEF</color> <!-- 极光灰 -->
+    <color name="aurora_grey">#EAEAEF</color> <!-- 极光灰 -->
     <color name="bright_red">#E3311A</color> <!-- 鲜红色 -->
     <color name="light_red">#F4606C</color> <!-- 浅红 -->
     <color name="lilac">#6d677c</color> <!-- 淡紫色 -->

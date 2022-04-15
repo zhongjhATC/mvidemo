@@ -94,5 +94,9 @@ abstract class BaseFragment<V : MvpView, P : MviPresenter<V, *>?> : MviFragment<
         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
     }
 
+    open fun notHappening() {
+
+    }
+
 
 }

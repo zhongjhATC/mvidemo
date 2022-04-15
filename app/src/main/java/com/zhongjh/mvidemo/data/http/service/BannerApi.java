@@ -2,7 +2,7 @@ package com.zhongjh.mvidemo.data.http.service;
 
 
 import com.zhongjh.mvidemo.entity.Banner;
-import com.zhongjh.mvidemo.entity.WanEntity;
+import com.zhongjh.mvidemo.entity.ApiEntity;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import retrofit2.http.GET;
 public interface BannerApi {
 
     @GET("banner/json")
-    Observable<WanEntity<List<Banner>>> json();
+    Observable<ApiEntity<List<Banner>>> json();
 
 
 

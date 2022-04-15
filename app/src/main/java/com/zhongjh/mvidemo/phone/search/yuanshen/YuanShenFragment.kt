@@ -7,11 +7,12 @@ import com.blankj.utilcode.util.KeyboardUtils
 import com.zhongjh.mvidemo.R
 import com.zhongjh.mvidemo.phone.search.SearchActivity
 import com.zhongjh.mvidemo.phone.search.yuanshen.adapter.YuanShenVerticalAdapter
+import com.zhongjh.mvidemo.view.CustomRefreshHeader
 import com.zhongjh.mvilibrary.base.BaseFragment
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.fragment_yuanshen.*
-
+import kotlinx.android.synthetic.main.fragment_yuanshen.refreshLayout
+import kotlinx.android.synthetic.main.fragment_yuanshen.rlContent
 
 /**
  *
@@ -32,9 +33,14 @@ class YuanShenFragment : BaseFragment<YuanShenView, YuanShenPresenter>(), YuanSh
     }
 
     override fun initListener() {
+        refreshLayout.setOnRefreshListener {
+            mSearchObserver.onNext(mSearchContent)
+        }
     }
 
     override fun initialize() {
+        // 自定义刷新
+        refreshLayout.setRefreshHeader(CustomRefreshHeader(activity))
         // 初始化列表竖向列表
         rlContent.layoutManager = GridLayoutManager(context, 2)
         rlContent.adapter = mYuanShenVerticalAdapter
@@ -62,10 +68,14 @@ class YuanShenFragment : BaseFragment<YuanShenView, YuanShenPresenter>(), YuanSh
     override fun render(state: YuanShenState) {
         when (state) {
             is YuanShenState.ErrorState -> errorState(state)
-            is YuanShenState.LoadingState -> Log.d(mTag, "LoadingState")
+            is YuanShenState.LoadingState -> loadingState()
             is YuanShenState.DataState -> dataState(state)
-            is YuanShenState.SearchNotStartedYet -> Log.d(mTag, "SearchNotStartedYet")
+            is YuanShenState.SearchNotStartedYetState -> searchNotStartedYetState()
         }
+    }
+
+    private fun loadingState() {
+        refreshLayout.autoRefresh()
     }
 
     /**
@@ -74,7 +84,7 @@ class YuanShenFragment : BaseFragment<YuanShenView, YuanShenPresenter>(), YuanSh
     private fun dataState(state: YuanShenState.DataState) {
         refreshLayout.finishRefresh()
         // 显示竖向数据
-        mYuanShenVerticalAdapter.setList(state.products.data)
+        mYuanShenVerticalAdapter.setList(state.products.data?.data)
         mYuanShenVerticalAdapter.notifyDataSetChanged()
         // 隐藏软键盘
         KeyboardUtils.hideSoftInput(activity)
@@ -91,5 +101,11 @@ class YuanShenFragment : BaseFragment<YuanShenView, YuanShenPresenter>(), YuanSh
         refreshLayout.finishRefresh()
     }
 
+    /**
+     * 搜索内容为空不允许查询
+     */
+    private fun searchNotStartedYetState() {
+        refreshLayout.finishRefresh()
+    }
 
 }

@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.youth.banner.indicator.CircleIndicator
 import com.zhongjh.mvidemo.R
+import com.zhongjh.mvidemo.entity.PageEntity
+import com.zhongjh.mvidemo.entity.Product
 import com.zhongjh.mvidemo.phone.main.fragment.shopping.adapter.ShopPingBannerAdapter
 import com.zhongjh.mvidemo.phone.main.fragment.shopping.adapter.ShopPingHorizontalAdapter
 import com.zhongjh.mvidemo.phone.main.fragment.shopping.adapter.ShopPingVerticalAdapter
@@ -27,8 +29,17 @@ class ShopPingFragment : BaseFragment<ShopPingView, ShopPingPresenter>(), ShopPi
 
     private val mTag = ShopPingFragment::class.qualifiedName
 
-    var mShopPingHorizontalAdapter = ShopPingHorizontalAdapter()
-    var mShopPingVerticalAdapter = ShopPingVerticalAdapter()
+    /**
+     * 只初始化一次,否则每次onStart都会调用一次render
+     */
+    var mIsInitialize = false
+    private var mShopPingHorizontalAdapter = ShopPingHorizontalAdapter()
+    private var mShopPingVerticalAdapter = ShopPingVerticalAdapter()
+
+    /**
+     * 竖型列表的当前页码
+     */
+    private var mVerticalPage = 0
 
     override fun initLayoutId() = R.layout.fragment_shopping
 
@@ -38,7 +49,7 @@ class ShopPingFragment : BaseFragment<ShopPingView, ShopPingPresenter>(), ShopPi
     }
 
     override fun initListener() {
-        vSearch.setOnClickListener {
+        vSearchTouch.setOnClickListener {
             // 打开搜索界面
             val intent = Intent(activity, SearchActivity::class.java)
             startActivity(intent)
@@ -64,11 +75,17 @@ class ShopPingFragment : BaseFragment<ShopPingView, ShopPingPresenter>(), ShopPi
     }
 
     override fun pullToRefreshIntent(): Observable<Boolean> {
-        return RxSmartRefreshLayout.refreshes(refreshLayout).map { true }
+        return RxSmartRefreshLayout.refreshes(refreshLayout).map {
+            mIsInitialize = false
+            true
+        }
     }
 
-    override fun loadNextPageIntent(): Observable<Boolean> {
-        return RxSmartLoadLayout.load(refreshLayout).map { true }
+    override fun loadNextPageIntent(): Observable<Int> {
+        return RxSmartLoadLayout.load(refreshLayout).map {
+            val page = mVerticalPage + 1
+            page
+        }
     }
 
     override fun render(state: ShopPingState) {
@@ -77,6 +94,7 @@ class ShopPingFragment : BaseFragment<ShopPingView, ShopPingPresenter>(), ShopPi
             is ShopPingState.ErrorState -> errorState(state)
             is ShopPingState.LoadingState -> Log.d(mTag, "LoadingState")
             is ShopPingState.LoadNextProductState -> loadNextProductState(state)
+            is ShopPingState.NotHappening -> notHappening()
         }
     }
 
@@ -84,17 +102,24 @@ class ShopPingFragment : BaseFragment<ShopPingView, ShopPingPresenter>(), ShopPi
      * 刷新数据
      */
     private fun dataState(state: ShopPingState.DataState) {
-        refreshLayout.finishRefresh()
-        // 显示Banner
-        if (state.shopHome.banners != null) {
-            banner.adapter = ShopPingBannerAdapter(state.shopHome.banners!!)
+        if (!mIsInitialize) {
+            refreshLayout.finishRefresh()
+            // 显示Banner
+            if (state.shopHome.banners != null) {
+                banner.adapter = ShopPingBannerAdapter(state.shopHome.banners!!)
+            }
+            // 显示横向数据
+            mShopPingHorizontalAdapter.setList(state.shopHome.productsIn)
+            mShopPingHorizontalAdapter.notifyDataSetChanged()
+            // 显示竖向数据
+            state.shopHome.products?.let { pageEntity ->
+                checkNextPage(pageEntity)
+                mShopPingVerticalAdapter.setList(pageEntity.data)
+                mShopPingVerticalAdapter.notifyDataSetChanged()
+            }
+            mIsInitialize = true
+            reset()
         }
-        // 显示横向数据
-        mShopPingHorizontalAdapter.setList(state.shopHome.productsIn)
-        mShopPingHorizontalAdapter.notifyDataSetChanged()
-        // 显示竖向数据
-        mShopPingVerticalAdapter.setList(state.shopHome.products)
-        mShopPingVerticalAdapter.notifyDataSetChanged()
     }
 
     /**
@@ -103,16 +128,41 @@ class ShopPingFragment : BaseFragment<ShopPingView, ShopPingPresenter>(), ShopPi
     private fun errorState(state: ShopPingState.ErrorState) {
         Log.d(mTag, "ErrorState" + state.error)
         refreshLayout.finishRefresh()
+        refreshLayout.finishLoadMore()
     }
 
     /**
      * 加载下一页
      */
     private fun loadNextProductState(state: ShopPingState.LoadNextProductState) {
-        if (state.products != null) {
-            mShopPingVerticalAdapter.addData(state.products)
+        state.products?.let { pageEntity ->
+            mVerticalPage++
+            checkNextPage(pageEntity)
+            pageEntity.data?.let { products ->
+                mShopPingVerticalAdapter.addData(products)
+            }
         }
+
         refreshLayout.finishLoadMore()
     }
+
+    /**
+     * 检查是否能下一页
+     */
+    private fun checkNextPage(pageEntity: PageEntity<Product>) {
+        if (mVerticalPage >= pageEntity.pages - 1) {
+            // 关闭下一页，页码已经最大
+            refreshLayout.setEnableLoadMore(false)
+        }
+    }
+
+    /**
+     * 重置一些基础数据
+     */
+    private fun reset() {
+        mVerticalPage = 0
+        refreshLayout.setEnableLoadMore(true)
+    }
+
 
 }

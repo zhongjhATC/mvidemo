@@ -15,9 +15,9 @@ import com.zhongjh.mvidemo.phone.search.adapter.SearchViewPagerAdapter
 import com.zhongjh.mvilibrary.base.BaseActivity
 import com.zhongjh.mvilibrary.listener.ThrottleOnClickListener
 import com.zhongjh.mvilibrary.rxjava.textview.TextViewTextChangeNullEventObservable
-import com.zhongjh.mvilibrary.utils.ToastUtils
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_search.*
+import kotlinx.android.synthetic.main.fragment_shopping.*
 import net.lucode.hackware.magicindicator.buildins.UIUtil
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 import java.util.concurrent.TimeUnit

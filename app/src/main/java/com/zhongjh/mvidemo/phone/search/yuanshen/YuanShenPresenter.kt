@@ -1,11 +1,10 @@
 package com.zhongjh.mvidemo.phone.search.yuanshen
 
 import com.hannesdorfmann.mosby3.mvi.MviBasePresenter
-import com.jshvarts.mosbymvi.data.ShopPingApi
+import com.zhongjh.mvidemo.data.http.service.ProductApi
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
 
 /**
  *
@@ -26,9 +25,9 @@ class YuanShenPresenter : MviBasePresenter<YuanShenView, YuanShenState>() {
 
     private fun search(search: String): Observable<YuanShenState> {
         return if (search.isEmpty()) {
-            Observable.just(YuanShenState.SearchNotStartedYet)
+            Observable.just(YuanShenState.SearchNotStartedYetState)
         } else
-            ShopPingApi.getProducts()
+            ProductApi.getProducts(0)
             .subscribeOn(Schedulers.io())
             .map<YuanShenState> { YuanShenState.DataState(it) }
             .startWith(YuanShenState.LoadingState)

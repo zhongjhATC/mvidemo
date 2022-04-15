@@ -1,19 +1,14 @@
 package com.zhongjh.mvidemo.phone.main.fragment.shopping
 
 import com.hannesdorfmann.mosby3.mvi.MviBasePresenter
-import com.jshvarts.mosbymvi.data.ShopPingApi
 import com.zhongjh.mvidemo.data.http.retrofit.RetrofitClient
 import com.zhongjh.mvidemo.data.http.service.BannerApi
-import com.zhongjh.mvidemo.entity.Banner
-import com.zhongjh.mvidemo.entity.Product
-import com.zhongjh.mvidemo.entity.ShopHome
-import com.zhongjh.mvidemo.entity.WanEntity
-import com.zhongjh.mvidemo.phone.privacypolicy.PrivacyPolicyView
-import com.zhongjh.mvidemo.phone.splash.SplashState
+import com.zhongjh.mvidemo.data.http.service.ProductApi
+import com.zhongjh.mvidemo.entity.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Function3
 import io.reactivex.schedulers.Schedulers
+
 
 /**
  *
@@ -37,7 +32,7 @@ class ShopPingPresenter : MviBasePresenter<ShopPingView, ShopPingState>() {
         val shopPingLoad: Observable<ShopPingState> =
             intent(ShopPingView::loadNextPageIntent)
                 .subscribeOn(Schedulers.io())
-                .switchMap { loadNextProduct() }
+                .switchMap { loadNextProduct(it) }
                 .observeOn(AndroidSchedulers.mainThread())
 
         val merged = Observable.merge(initialize, shopPingRefresh, shopPingLoad)
@@ -51,14 +46,16 @@ class ShopPingPresenter : MviBasePresenter<ShopPingView, ShopPingState>() {
         // 面板广告
         val observableBanner = RetrofitClient.get().create(BannerApi::class.java).json()
         // 正在拍卖的产品
-        val observableProductIn = ShopPingApi.getProducts()
+        val observableProductIn = ProductApi.getProducts(0)
         // 商城显示的产品
-        val observableProduct = ShopPingApi.getProducts()
+        val observableProduct = ProductApi.getProducts(0)
 
         return Observable.zip(observableBanner, observableProductIn, observableProduct,
             { banners, productsIn, products -> getShopHomeZip(banners, productsIn, products) })
             .subscribeOn(Schedulers.io())
-            .map<ShopPingState> { ShopPingState.DataState(it) }
+            .map<ShopPingState> {
+                ShopPingState.DataState(it)
+            }
             .startWith(ShopPingState.LoadingState)
             .onErrorReturn { ShopPingState.ErrorState(it.message) }
     }
@@ -67,13 +64,13 @@ class ShopPingPresenter : MviBasePresenter<ShopPingView, ShopPingState>() {
      * 合并商城首页的多个接口数据
      */
     private fun getShopHomeZip(
-        banners: WanEntity<List<Banner>>,
-        productsIn: WanEntity<List<Product>>,
-        products: WanEntity<List<Product>>
+        banners: ApiEntity<List<Banner>>,
+        productsIn: ApiEntity<PageEntity<Product>>,
+        products: ApiEntity<PageEntity<Product>>
     ): ShopHome {
         val shopHome = ShopHome()
         shopHome.banners = banners.data
-        shopHome.productsIn = productsIn.data
+        shopHome.productsIn = productsIn.data?.data
         shopHome.products = products.data
         return shopHome
     }
@@ -81,9 +78,9 @@ class ShopPingPresenter : MviBasePresenter<ShopPingView, ShopPingState>() {
     /**
      * 获取产品的下一页
      */
-    private fun loadNextProduct(): Observable<ShopPingState> {
+    private fun loadNextProduct(page: Int): Observable<ShopPingState> {
         // 商城显示的产品
-        val observableProduct = ShopPingApi.getProducts()
+        val observableProduct = ProductApi.getProducts(page)
         return observableProduct
             .subscribeOn(Schedulers.io())
             .map {

@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-android-extensions'
+    id 'org.greenrobot.greendao'
 }
 
 android {
@@ -31,6 +32,12 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    // 数据库
+    greendao {
+        schemaVersion 1
+        daoPackage 'com.zhongjh.mvidemo.entity.db.dao'
+        targetGenDir 'src/main/java'
+    }
 }
 
 dependencies {
@@ -39,5 +46,10 @@ dependencies {
     // tab指标 https://github.com/hackware1993/MagicIndicator
     api 'com.github.hackware1993:MagicIndicator:1.7.0'
 
-
+    // 数据库
+    api 'org.greenrobot:greendao:3.3.0'
+    // 升级数据库辅助
+    api 'io.github.yuweiguocn:GreenDaoUpgradeHelper:v2.2.1'
+    // 升级数据库加密
+    api 'net.zetetic:android-database-sqlcipher:3.5.6'
 }

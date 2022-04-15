@@ -3,6 +3,7 @@ package com.zhongjh.mvilibrary.base
 import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
 import com.hannesdorfmann.mosby3.mvi.MviActivity
 import com.hannesdorfmann.mosby3.mvi.MviPresenter
 import com.hannesdorfmann.mosby3.mvp.MvpView

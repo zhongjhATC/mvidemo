@@ -36,6 +36,16 @@
         app:layout_constraintStart_toStartOf="@+id/vTop"
         app:layout_constraintTop_toTopOf="@+id/vTop" />
 
+    <View
+        android:id="@+id/vSearchTouch"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/vTop"
+        app:layout_constraintEnd_toStartOf="@+id/imgShop"
+        app:layout_constraintStart_toStartOf="@+id/vTop"
+        app:layout_constraintTop_toTopOf="@+id/vTop" />
+
     <ImageView
         android:id="@+id/imgSearch"
         android:layout_width="wrap_content"

@@ -20,9 +20,9 @@ interface ShopPingView : MvpView {
     /**
      * 对“下拉加载”做出反应的意图
      *
-     * @return 发出的item布尔值可以被忽略，因为它总是为真
+     * @return 发出的会带着页码数据
      */
-    fun loadNextPageIntent() : Observable<Boolean>
+    fun loadNextPageIntent(): Observable<Int>
 
     /**
      * Render the state in the UI

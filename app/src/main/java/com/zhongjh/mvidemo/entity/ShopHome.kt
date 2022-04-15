@@ -8,5 +8,5 @@ package com.zhongjh.mvidemo.entity
 class ShopHome {
     var banners: List<Banner>? = null
     var productsIn: List<Product>? = null
-    var products: List<Product>? = null
+    var products: PageEntity<Product>? = null
 }
