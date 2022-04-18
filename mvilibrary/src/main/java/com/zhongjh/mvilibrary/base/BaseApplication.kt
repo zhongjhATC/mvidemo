@@ -52,7 +52,7 @@ abstract class BaseApplication : Application() {
         val TAG = BaseApplication::class.java.simpleName.toString()
     }
 
-    private class NotNullSingleValue<T> : ReadWriteProperty<Any?, T> {
+    protected class NotNullSingleValue<T> : ReadWriteProperty<Any?, T> {
         private var value: T? = null
         override fun getValue(thisRef: Any?, property: KProperty<*>): T {
             return value ?: throw IllegalStateException("application not initialized")

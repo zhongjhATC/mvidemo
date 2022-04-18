@@ -35,7 +35,7 @@ android {
     // 数据库
     greendao {
         schemaVersion 1
-        daoPackage 'com.zhongjh.mvidemo.entity.db.dao'
+        daoPackage 'com.zhongjh.mvidemo.data.db.dao'
         targetGenDir 'src/main/java'
     }
 }

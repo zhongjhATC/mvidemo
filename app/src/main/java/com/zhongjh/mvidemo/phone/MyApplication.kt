@@ -7,7 +7,11 @@ import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
+import com.zhongjh.mvidemo.BuildConfig.DEBUG
 import com.zhongjh.mvidemo.R
+import com.zhongjh.mvidemo.data.db.MySQLiteOpenHelper
+import com.zhongjh.mvidemo.data.db.dao.DaoMaster
+import com.zhongjh.mvidemo.data.db.dao.DaoSession
 import com.zhongjh.mvidemo.phone.splash.SplashActivity
 import com.zhongjh.mvilibrary.base.BaseApplication
 import com.zhongjh.mvilibrary.utils.DynamicTimeFormat
@@ -19,6 +23,26 @@ import com.zhongjh.mvilibrary.utils.DynamicTimeFormat
  * 代码规范：https://github.com/getActivity/AndroidCodeStandard
  */
 class MyApplication : BaseApplication() {
+
+    val daoSession: DaoSession by lazy {
+        if (DEBUG) {
+            val helper = MySQLiteOpenHelper(
+                this, "mvi-db",
+                null
+            )
+            DaoMaster(helper.writableDb).newSession()
+        } else {
+            val helper = MySQLiteOpenHelper(
+                this, "mvi-db",
+                null
+            )
+            DaoMaster(helper.getEncryptedWritableDb("databasePasswordKey")).newSession()
+        }
+    }
+
+    companion object {
+        var instance = BaseApplication.instance
+    }
 
     override fun init() {
         super.init()
