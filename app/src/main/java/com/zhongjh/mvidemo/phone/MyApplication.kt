@@ -41,7 +41,12 @@ class MyApplication : BaseApplication() {
     }
 
     companion object {
-        var instance = BaseApplication.instance
+        /**
+         * 必须添加这个，延迟初始化
+         */
+        val instance by lazy {
+            BaseApplication.instance as MyApplication
+        }
     }
 
     override fun init() {

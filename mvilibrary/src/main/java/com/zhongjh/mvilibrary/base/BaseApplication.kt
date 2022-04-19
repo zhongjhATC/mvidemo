@@ -113,3 +113,4 @@ abstract class BaseApplication : Application() {
 
     abstract fun getSplashActivity(): Class<out Activity>
 }
+

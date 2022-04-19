@@ -15,12 +15,12 @@ interface SearchView : MvpView {
     /**
      * 点击搜索的意图
      */
-    fun searchClickIntent(): Observable<SearchConditions>
+    fun searchClickIntent(): Observable<String>
 
     /**
      * 搜索文本改变内容的意图
      */
-    fun searchTextChangesIntent() : Observable<SearchConditions>
+    fun searchTextChangesIntent() : Observable<String>
 
     /**
      * Render the state in the UI

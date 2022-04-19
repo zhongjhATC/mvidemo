@@ -45,6 +45,8 @@ dependencies {
 
     // tab指标 https://github.com/hackware1993/MagicIndicator
     api 'com.github.hackware1993:MagicIndicator:1.7.0'
+    // 标签布局 https://github.com/google/flexbox-layout
+    api 'com.google.android.flexbox:flexbox:3.0.0'
 
     // 数据库
     api 'org.greenrobot:greendao:3.3.0'

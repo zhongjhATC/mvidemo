@@ -88,9 +88,6 @@ class YuanShenFragment : BaseFragment<YuanShenView, YuanShenPresenter>(), YuanSh
         mYuanShenVerticalAdapter.notifyDataSetChanged()
         // 隐藏软键盘
         KeyboardUtils.hideSoftInput(activity)
-        if (activity is SearchActivity) {
-            (activity as SearchActivity).showDataListView()
-        }
     }
 
     /**

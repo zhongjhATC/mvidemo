@@ -1,15 +1,20 @@
 package com.zhongjh.mvidemo.phone.search
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
 import com.jakewharton.rxbinding2.view.RxView
 import com.zhongjh.mvidemo.R
 import com.zhongjh.mvidemo.entity.SearchConditions
 import com.zhongjh.mvidemo.entity.SearchType
 import com.zhongjh.mvidemo.phone.main.fragment.shopping.ShopPingFragment
+import com.zhongjh.mvidemo.phone.search.adapter.SearchHistoryAdapter
 import com.zhongjh.mvidemo.phone.search.adapter.SearchNavigatorAdapter
 import com.zhongjh.mvidemo.phone.search.adapter.SearchViewPagerAdapter
 import com.zhongjh.mvilibrary.base.BaseActivity
@@ -40,16 +45,20 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView {
     private var mViewPagerPosition = 0
 
     private lateinit var mCommonNavigatorAdapter: SearchNavigatorAdapter
+    private val mSearchHistoryAdapter = SearchHistoryAdapter()
     private val mSearchViewPagerAdapter: SearchViewPagerAdapter by lazy {
         SearchViewPagerAdapter(supportFragmentManager, lifecycle)
     }
     private val mTvSearchClickObservable: Observable<Boolean> by lazy {
         RxView.clicks(tvSearch).share().map { true }
     }
+
+    /**
+     * 文本为空时立即触发
+     */
     private val mTvSearchTextChangesObservable: Observable<Boolean> by lazy {
-        TextViewTextChangeNullEventObservable(etSearch) {
-            showSearchView()
-        }.share().map { true }
+        TextViewTextChangeNullEventObservable(etSearch) { switchShowSearchView() }
+            .share().map { true }
     }
 
     override fun initLayoutId() = R.layout.activity_search
@@ -67,35 +76,37 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView {
 
     override fun initialize() {
         initMagicIndicator()
+        initRlSearchHistory()
     }
 
     override fun createPresenter() = SearchPresenter()
 
-    override fun searchClickIntent(): Observable<SearchConditions> {
+    override fun searchClickIntent(): Observable<String> {
         return mTvSearchClickObservable
             // filter完成一个条件过滤和筛选,如果filter判断的值为真，则交给观察者，否则跳过
             .filter { etSearch.length() > 0 }
             // 转换成搜索文本的数据
             .map {
                 mSearchConditions.content = etSearch.text.toString()
-                mSearchConditions
+                etSearch.text.toString()
             }
     }
 
-    override fun searchTextChangesIntent(): Observable<SearchConditions> {
+    override fun searchTextChangesIntent(): Observable<String> {
         return mTvSearchTextChangesObservable
             // 满足一定时间延时后才发射数据
             .debounce(1, TimeUnit.SECONDS)
             // 转换成搜索文本的数据
             .map {
                 mSearchConditions.content = etSearch.text.toString()
-                mSearchConditions
+                etSearch.text.toString()
             }
     }
 
     override fun render(state: SearchState) {
         when (state) {
             is SearchState.SearchNoticeState -> searchNoticeState()
+            is SearchState.InitSearchContentsState -> initSearchContentsState(state)
         }
     }
 
@@ -119,6 +130,20 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView {
         commonNavigator.rightPadding = UIUtil.dip2px(this, 15.0)
         magicIndicator.navigator = commonNavigator
         initViewPager(listFragments)
+    }
+
+    /**
+     * 初始化搜索记录历史列表
+     */
+    private fun initRlSearchHistory() {
+        val manager: FlexboxLayoutManager =
+            object : FlexboxLayoutManager(this, FlexDirection.ROW, FlexWrap.WRAP) {
+                override fun canScrollVertically(): Boolean {
+                    return false
+                }
+            }
+        rlSearchHistory.layoutManager = manager
+        rlSearchHistory.adapter = mSearchHistoryAdapter
     }
 
     /**
@@ -165,22 +190,32 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView {
      */
     private fun searchNoticeState() {
         Log.d(mTag, "searchNoticeState")
+        switchShowSearchView()
         mSearchViewPagerAdapter.search(mViewPagerPosition, mSearchConditions.content)
     }
 
     /**
-     * 显示搜索列表，隐藏查询出来的产品列表
+     * 初始化搜索历史
      */
-    private fun showSearchView() {
-        groupSearchHistory.visibility = View.VISIBLE
-        viewPager2.visibility = View.GONE
+    private fun initSearchContentsState(state: SearchState.InitSearchContentsState) {
+        Log.d(mTag, "initSearchContentsState")
+        mSearchHistoryAdapter.setList(state.searchContents)
+        mSearchHistoryAdapter.notifyDataSetChanged()
     }
 
     /**
-     * 显示产品列表，隐藏索列表
+     * 切换面板显示
+     * 1. 如果有搜索内容，就显示产品列表
+     * 2. 如果无搜索内容，就显示搜索历史记录
      */
-    fun showDataListView() {
-        groupSearchHistory.visibility = View.GONE
-        viewPager2.visibility = View.VISIBLE
+    private fun switchShowSearchView() {
+        if (TextUtils.isEmpty(mSearchConditions.content)) {
+            groupSearchHistory.visibility = View.VISIBLE
+            viewPager2.visibility = View.GONE
+        } else {
+            groupSearchHistory.visibility = View.GONE
+            viewPager2.visibility = View.VISIBLE
+        }
     }
+
 }

@@ -1,4 +1,4 @@
-package com.zhongjh.mvidemo.entity.db.dao;
+package com.zhongjh.mvidemo.data.db.dao;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
