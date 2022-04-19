@@ -49,8 +49,20 @@ class SearchViewPagerAdapter(private val fragmentManager: FragmentManager, lifec
         yuanShenFragment?.search(searchContent)
     }
 
+    /**
+     * 清空数据
+     *
+     * @param position 查询的索引列表
+     */
+    fun clear(position: Int) {
+        val yuanShenFragment = getPageFragment(position.toLong()) as? YuanShenFragment
+        yuanShenFragment?.clear()
+    }
+
     private fun getPageFragment(id: Long): Fragment? {
         return fragmentManager.findFragmentByTag("f$id")
     }
+
+
 
 }

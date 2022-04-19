@@ -65,6 +65,14 @@ class YuanShenFragment : BaseFragment<YuanShenView, YuanShenPresenter>(), YuanSh
         mSearchObserver.onNext(searchContent)
     }
 
+    /**
+     * 清空数据
+     */
+    fun clear() {
+        mYuanShenVerticalAdapter.setList(null)
+        mYuanShenVerticalAdapter.notifyDataSetChanged()
+    }
+
     override fun render(state: YuanShenState) {
         when (state) {
             is YuanShenState.ErrorState -> errorState(state)
@@ -104,5 +112,6 @@ class YuanShenFragment : BaseFragment<YuanShenView, YuanShenPresenter>(), YuanSh
     private fun searchNotStartedYetState() {
         refreshLayout.finishRefresh()
     }
+
 
 }

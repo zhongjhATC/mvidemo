@@ -57,8 +57,9 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView {
      * 文本为空时立即触发
      */
     private val mTvSearchTextChangesObservable: Observable<Boolean> by lazy {
-        TextViewTextChangeNullEventObservable(etSearch) { switchShowSearchView() }
-            .share().map { true }
+        TextViewTextChangeNullEventObservable(etSearch) {
+            switchShowSearchView()
+        }.share().map { true }
     }
 
     override fun initLayoutId() = R.layout.activity_search
@@ -190,7 +191,9 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView {
      */
     private fun searchNoticeState() {
         Log.d(mTag, "searchNoticeState")
-        switchShowSearchView()
+        if (!TextUtils.isEmpty(mSearchConditions.content)) {
+            showDataListView()
+        }
         mSearchViewPagerAdapter.search(mViewPagerPosition, mSearchConditions.content)
     }
 
@@ -204,18 +207,19 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView {
     }
 
     /**
-     * 切换面板显示
-     * 1. 如果有搜索内容，就显示产品列表
-     * 2. 如果无搜索内容，就显示搜索历史记录
+     * 显示搜索列表，隐藏产品列表
      */
     private fun switchShowSearchView() {
-        if (TextUtils.isEmpty(mSearchConditions.content)) {
-            groupSearchHistory.visibility = View.VISIBLE
-            viewPager2.visibility = View.GONE
-        } else {
-            groupSearchHistory.visibility = View.GONE
-            viewPager2.visibility = View.VISIBLE
-        }
+        groupSearchHistory.visibility = View.VISIBLE
+        viewPager2.visibility = View.GONE
+        mSearchViewPagerAdapter.clear(mViewPagerPosition)
     }
 
+    /**
+     * 显示产品列表，隐藏搜索列表
+     */
+    private fun showDataListView() {
+        groupSearchHistory.visibility = View.GONE
+        viewPager2.visibility = View.VISIBLE
+    }
 }
