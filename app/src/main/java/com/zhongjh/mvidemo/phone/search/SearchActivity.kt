@@ -14,6 +14,7 @@ import com.zhongjh.mvidemo.R
 import com.zhongjh.mvidemo.entity.SearchConditions
 import com.zhongjh.mvidemo.entity.SearchType
 import com.zhongjh.mvidemo.phone.main.fragment.shopping.ShopPingFragment
+import com.zhongjh.mvidemo.diffcallback.DiffSearchHistoryCallback
 import com.zhongjh.mvidemo.phone.search.adapter.SearchHistoryAdapter
 import com.zhongjh.mvidemo.phone.search.adapter.SearchNavigatorAdapter
 import com.zhongjh.mvidemo.phone.search.adapter.SearchViewPagerAdapter
@@ -25,7 +26,9 @@ import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.fragment_shopping.*
 import net.lucode.hackware.magicindicator.buildins.UIUtil
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
+import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 /**
  * 搜索的Activity
@@ -49,6 +52,7 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView {
     private val mSearchViewPagerAdapter: SearchViewPagerAdapter by lazy {
         SearchViewPagerAdapter(supportFragmentManager, lifecycle)
     }
+
     private val mTvSearchClickObservable: Observable<Boolean> by lazy {
         RxView.clicks(tvSearch).share().map { true }
     }
@@ -145,6 +149,7 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView {
             }
         rlSearchHistory.layoutManager = manager
         rlSearchHistory.adapter = mSearchHistoryAdapter
+        mSearchHistoryAdapter.setDiffCallback(DiffSearchHistoryCallback())
     }
 
     /**
@@ -190,26 +195,28 @@ class SearchActivity : BaseActivity<SearchView, SearchPresenter>(), SearchView {
      * 查询数据
      */
     private fun searchNoticeState() {
-        Log.d(mTag, "searchNoticeState")
+        Log.i(mTag, "searchNoticeState")
         if (!TextUtils.isEmpty(mSearchConditions.content)) {
             showDataListView()
         }
         mSearchViewPagerAdapter.search(mViewPagerPosition, mSearchConditions.content)
+        // 更新搜索历史
+
     }
 
     /**
      * 初始化搜索历史
      */
     private fun initSearchContentsState(state: SearchState.InitSearchContentsState) {
-        Log.d(mTag, "initSearchContentsState")
-        mSearchHistoryAdapter.setList(state.searchContents)
-        mSearchHistoryAdapter.notifyDataSetChanged()
+        Log.i(mTag, "initSearchContentsState")
+        mSearchHistoryAdapter.setDiffNewData(state.searchContents)
     }
 
     /**
      * 显示搜索列表，隐藏产品列表
      */
     private fun switchShowSearchView() {
+        Log.i(mTag, "switchShowSearchView")
         groupSearchHistory.visibility = View.VISIBLE
         viewPager2.visibility = View.GONE
         mSearchViewPagerAdapter.clear(mViewPagerPosition)

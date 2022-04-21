@@ -5,20 +5,19 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.widget.TextView;
 
-import com.jakewharton.rxbinding2.InitialValueObservable;
-import com.jakewharton.rxbinding2.widget.TextViewTextChangeEvent;
-
+import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.MainThreadDisposable;
 
 /**
- * 在原版基础上加入了处理null的即时处理
+ * 1. 在原版基础上加入了处理null的即时处理
+ * 2. 原版会在创建关联观察者的时候就会触发，这边是改成了改变文本才会触发
  *
  * @author zhongjh
  * @date 2022/4/12
  */
 public class TextViewTextChangeNullEventObservable
-        extends InitialValueObservable<TextViewTextChangeEvent> {
+        extends Observable<CharSequence> {
 
     private final TextView view;
     private final ObservableListener observableListener;
@@ -36,24 +35,19 @@ public class TextViewTextChangeNullEventObservable
     }
 
     @Override
-    protected void subscribeListener(Observer<? super TextViewTextChangeEvent> observer) {
+    protected void subscribeActual(Observer<? super CharSequence> observer) {
         Listener listener = new Listener(view, observer, observableListener);
         observer.onSubscribe(listener);
         view.addTextChangedListener(listener);
     }
 
-    @Override
-    protected TextViewTextChangeEvent getInitialValue() {
-        return TextViewTextChangeEvent.create(view, view.getText(), 0, 0, 0);
-    }
-
     final static class Listener extends MainThreadDisposable implements TextWatcher {
 
         private final TextView view;
-        private final Observer<? super TextViewTextChangeEvent> observer;
+        private final Observer<? super CharSequence> observer;
         private final ObservableListener observableListener;
 
-        Listener(TextView view, Observer<? super TextViewTextChangeEvent> observer, ObservableListener observableListener) {
+        Listener(TextView view, Observer<? super CharSequence> observer, ObservableListener observableListener) {
             this.view = view;
             this.observer = observer;
             this.observableListener = observableListener;
@@ -69,7 +63,7 @@ public class TextViewTextChangeNullEventObservable
                 observableListener.onTextChangedNull();
             }
             if (!isDisposed()) {
-                observer.onNext(TextViewTextChangeEvent.create(view, s, start, before, count));
+                observer.onNext(s);
             }
         }
 

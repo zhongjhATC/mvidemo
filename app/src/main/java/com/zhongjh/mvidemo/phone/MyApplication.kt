@@ -66,7 +66,7 @@ class MyApplication : BaseApplication() {
         // 启用矢量图兼容
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         // 设置全局默认配置（优先级最低，会被其他设置覆盖）
-        SmartRefreshLayout.setDefaultRefreshInitializer { context: Context?, layout: RefreshLayout ->
+        SmartRefreshLayout.setDefaultRefreshInitializer { _: Context?, layout: RefreshLayout ->
             // 全局设置（优先级最低）
             layout.setEnableAutoLoadMore(true)
             layout.setEnableOverScrollDrag(false)
@@ -82,7 +82,7 @@ class MyApplication : BaseApplication() {
             layout.setEnableHeaderTranslationContent(true)
             ClassicsHeader(context).setTimeFormat(DynamicTimeFormat("更新于 %s"))
         }
-        SmartRefreshLayout.setDefaultRefreshFooterCreator { context: Context?, layout: RefreshLayout? ->
+        SmartRefreshLayout.setDefaultRefreshFooterCreator { context: Context?, _: RefreshLayout? ->
             ClassicsFooter(
                 context
             )

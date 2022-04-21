@@ -22,10 +22,11 @@ class SearchPresenter : MviBasePresenter<SearchView, SearchState>() {
     override fun bindIntents() {
         // 初始化
         val initialize: Observable<SearchState> =
-            Observable.just(mSearchContentBusiness.getSearchContents())
-                .subscribeOn(Schedulers.io())
+            Observable.just(mSearchContentBusiness.getSearchContents()).
+            subscribeOn(Schedulers.io())
                 .switchMap { showSearchHistory(it) }
                 .observeOn(AndroidSchedulers.mainThread())
+
         // 搜索点击
         val searchClick: Observable<String> =
             intent(SearchView::searchClickIntent)
@@ -55,7 +56,7 @@ class SearchPresenter : MviBasePresenter<SearchView, SearchState>() {
         return Observable.just(SearchState.SearchNoticeState(searchConditions))
     }
 
-    private fun showSearchHistory(searchContents: List<SearchContent>): Observable<SearchState> {
+    private fun showSearchHistory(searchContents: MutableList<SearchContent>): Observable<SearchState> {
         return Observable.just(SearchState.InitSearchContentsState(searchContents))
     }
 

@@ -33,18 +33,6 @@ abstract class BaseApplication : Application() {
         // 初始化工具类
         Utils.init(this)
         MMKV.initialize(this)
-
-        // 初始化腾讯x5 QbSdk
-        QbSdk.initX5Environment(this, object : PreInitCallback {
-            override fun onCoreInitFinished() {
-                Log.e(TAG, "========onCoreInitFinished===")
-            }
-
-            override fun onViewInitFinished(b: Boolean) {
-                Log.e(TAG, "x5初始化结果====$b")
-            }
-        })
-
     }
 
     companion object {
@@ -80,6 +68,7 @@ abstract class BaseApplication : Application() {
         initLog()
         // 初始化Toast的全局样式
         ToastUtils.setGravity(Gravity.CENTER, 0, 0)
+        initQbSdk()
     }
 
     /**
@@ -107,6 +96,23 @@ abstract class BaseApplication : Application() {
     private fun initLog() {
         LogUtils.getConfig().setLogSwitch(true).setLog2FileSwitch(true)
             .setDir(FilePaths.logFile(this.applicationContext)).saveDays = 7
+    }
+
+    /**
+     * 初始化腾讯的QbSdk
+     * 初始化过程中会一直报 Access denied finding property "net.dns1" 错误
+     */
+    private fun initQbSdk() {
+        // 初始化腾讯x5 QbSdk
+        QbSdk.initX5Environment(this, object : PreInitCallback {
+            override fun onCoreInitFinished() {
+                Log.e(TAG, "========onCoreInitFinished===")
+            }
+
+            override fun onViewInitFinished(b: Boolean) {
+                Log.e(TAG, "x5初始化结果====$b")
+            }
+        })
     }
 
     abstract fun getLauncher(): Int

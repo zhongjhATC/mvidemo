@@ -14,7 +14,7 @@ sealed class SearchState {
     /**
      * 初始化搜索历史列表
      */
-    data class InitSearchContentsState(val searchContents: List<SearchContent>) : SearchState()
+    data class InitSearchContentsState(val searchContents: MutableList<SearchContent>) : SearchState()
 
 }
 

@@ -22,7 +22,7 @@ class SearchContentBusiness {
     /**
      * 获取搜索内容，最高12条数据
      */
-    fun getSearchContents(): List<SearchContent> {
+    fun getSearchContents(): MutableList<SearchContent> {
         val searchContentDao = MyApplication.instance.daoSession.searchContentDao
         val queryBuilder: QueryBuilder<SearchContent> = searchContentDao.queryBuilder()
         return queryBuilder.limit(maxCount).list()

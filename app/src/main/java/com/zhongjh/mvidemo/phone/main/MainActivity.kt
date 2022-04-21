@@ -53,9 +53,9 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView {
         BaseApplication.instance.init()
         initViewPager()
         initTabBar()
-        // 打开搜索界面
-        val intent = Intent(this, SearchActivity::class.java)
-        startActivity(intent)
+//        // 打开搜索界面
+//        val intent = Intent(this, SearchActivity::class.java)
+//        startActivity(intent)
     }
 
     override fun createPresenter() = MainPresenter()

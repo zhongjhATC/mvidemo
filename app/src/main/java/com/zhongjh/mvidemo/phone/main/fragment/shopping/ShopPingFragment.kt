@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.youth.banner.indicator.CircleIndicator
 import com.zhongjh.mvidemo.R
+import com.zhongjh.mvidemo.diffcallback.DiffProductCallback
 import com.zhongjh.mvidemo.entity.PageEntity
 import com.zhongjh.mvidemo.entity.Product
 import com.zhongjh.mvidemo.phone.main.fragment.shopping.adapter.ShopPingBannerAdapter
@@ -68,10 +69,12 @@ class ShopPingFragment : BaseFragment<ShopPingView, ShopPingPresenter>(), ShopPi
         ms.orientation = LinearLayoutManager.HORIZONTAL
         rlContentHorizontal.layoutManager = ms
         rlContentHorizontal.adapter = mShopPingHorizontalAdapter
+        mShopPingHorizontalAdapter.setDiffCallback(DiffProductCallback())
 
         // 初始化列表竖向列表
         rlContent.layoutManager = GridLayoutManager(context, 2)
         rlContent.adapter = mShopPingVerticalAdapter
+        mShopPingVerticalAdapter.setDiffCallback(DiffProductCallback())
     }
 
     override fun pullToRefreshIntent(): Observable<Boolean> {

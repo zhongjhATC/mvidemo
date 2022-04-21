@@ -20,7 +20,7 @@ interface SearchView : MvpView {
     /**
      * 搜索文本改变内容的意图
      */
-    fun searchTextChangesIntent() : Observable<String>
+    fun searchTextChangesIntent(): Observable<String>
 
     /**
      * Render the state in the UI
