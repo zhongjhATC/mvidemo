@@ -1,7 +1,7 @@
 package com.zhongjh.mvidemo.phone.template.fragment
 
 import android.os.Bundle
-import com.zhongjh.mvilibrary.base.BaseFragment
+import com.zhongjh.mvidemo.R
 
 /**
  *
@@ -10,26 +10,20 @@ import com.zhongjh.mvilibrary.base.BaseFragment
  */
 class TemplateFragment : BaseFragment<TemplateView, TemplatePresenter>(), TemplateView {
 
-    override fun initLayoutId(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun initLayoutId() = R.layout.fragment_shopping
 
     override fun initParam(savedInstanceState: Bundle?) {
-        TODO("Not yet implemented")
     }
 
     override fun initListener() {
-        TODO("Not yet implemented")
     }
 
     override fun initialize() {
-        TODO("Not yet implemented")
     }
 
     override fun createPresenter() = TemplatePresenter()
 
     override fun render(state: TemplateState) {
-        TODO("Not yet implemented")
     }
 
 }

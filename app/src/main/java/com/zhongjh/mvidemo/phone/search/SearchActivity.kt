@@ -18,7 +18,6 @@ import com.zhongjh.mvidemo.diffcallback.DiffSearchHistoryCallback
 import com.zhongjh.mvidemo.phone.search.adapter.SearchHistoryAdapter
 import com.zhongjh.mvidemo.phone.search.adapter.SearchNavigatorAdapter
 import com.zhongjh.mvidemo.phone.search.adapter.SearchViewPagerAdapter
-import com.zhongjh.mvilibrary.base.BaseActivity
 import com.zhongjh.mvilibrary.listener.ThrottleOnClickListener
 import com.zhongjh.mvilibrary.rxjava.textview.TextViewTextChangeNullEventObservable
 import io.reactivex.Observable

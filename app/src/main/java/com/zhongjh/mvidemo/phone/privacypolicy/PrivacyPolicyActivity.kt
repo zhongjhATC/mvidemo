@@ -8,7 +8,6 @@ import android.text.method.LinkMovementMethod
 import com.jakewharton.rxbinding2.view.clicks
 import com.zhongjh.mvidemo.R
 import com.zhongjh.mvidemo.phone.main.MainActivity
-import com.zhongjh.mvilibrary.base.BaseActivity
 import com.zhongjh.mvilibrary.listener.ThrottleOnClickListener
 import com.zhongjh.mvilibrary.utils.LinkUrlText
 import kotlinx.android.synthetic.main.activity_privacy_policy.*

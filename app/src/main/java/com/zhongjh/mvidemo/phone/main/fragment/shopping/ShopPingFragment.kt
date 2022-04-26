@@ -29,11 +29,6 @@ import kotlinx.android.synthetic.main.fragment_shopping.*
 class ShopPingFragment : BaseFragment<ShopPingView, ShopPingPresenter>(), ShopPingView {
 
     private val mTag = ShopPingFragment::class.qualifiedName
-
-    /**
-     * 只初始化一次,否则每次onStart都会调用一次render
-     */
-    var mIsInitialize = false
     private var mShopPingHorizontalAdapter = ShopPingHorizontalAdapter()
     private var mShopPingVerticalAdapter = ShopPingVerticalAdapter()
 
@@ -79,7 +74,6 @@ class ShopPingFragment : BaseFragment<ShopPingView, ShopPingPresenter>(), ShopPi
 
     override fun pullToRefreshIntent(): Observable<Boolean> {
         return RxSmartRefreshLayout.refreshes(refreshLayout).map {
-            mIsInitialize = false
             true
         }
     }
@@ -93,11 +87,25 @@ class ShopPingFragment : BaseFragment<ShopPingView, ShopPingPresenter>(), ShopPi
 
     override fun render(state: ShopPingState) {
         when (state) {
-            is ShopPingState.DataState -> dataState(state)
-            is ShopPingState.ErrorState -> errorState(state)
-            is ShopPingState.LoadingState -> Log.d(mTag, "LoadingState")
-            is ShopPingState.LoadNextProductState -> loadNextProductState(state)
-            is ShopPingState.NotHappening -> notHappening()
+            is ShopPingState.DataState -> {
+                Log.i(mTag, "render DataState")
+                dataState(state)
+            }
+            is ShopPingState.ErrorState -> {
+                Log.i(mTag, "render errorState")
+                errorState(state)
+            }
+            is ShopPingState.LoadingState -> {
+                Log.d(mTag, "LoadingState")
+            }
+            is ShopPingState.LoadNextProductState -> {
+                Log.i(mTag, "render LoadNextProductState")
+                loadNextProductState(state)
+            }
+            is ShopPingState.NotHappening -> {
+                Log.i(mTag, "render notHappening")
+                notHappening()
+            }
         }
     }
 
@@ -105,24 +113,21 @@ class ShopPingFragment : BaseFragment<ShopPingView, ShopPingPresenter>(), ShopPi
      * 刷新数据
      */
     private fun dataState(state: ShopPingState.DataState) {
-        if (!mIsInitialize) {
-            refreshLayout.finishRefresh()
-            // 显示Banner
-            if (state.shopHome.banners != null) {
-                banner.adapter = ShopPingBannerAdapter(state.shopHome.banners!!)
-            }
-            // 显示横向数据
-            mShopPingHorizontalAdapter.setList(state.shopHome.productsIn)
-            mShopPingHorizontalAdapter.notifyDataSetChanged()
-            // 显示竖向数据
-            state.shopHome.products?.let { pageEntity ->
-                checkNextPage(pageEntity)
-                mShopPingVerticalAdapter.setList(pageEntity.data)
-                mShopPingVerticalAdapter.notifyDataSetChanged()
-            }
-            mIsInitialize = true
-            reset()
+        refreshLayout.finishRefresh()
+        // 显示Banner
+        if (state.shopHome.banners != null) {
+            banner.adapter = ShopPingBannerAdapter(state.shopHome.banners!!)
         }
+        // 显示横向数据
+        mShopPingHorizontalAdapter.setList(state.shopHome.productsIn)
+        mShopPingHorizontalAdapter.notifyDataSetChanged()
+        // 显示竖向数据
+        state.shopHome.products?.let { pageEntity ->
+            checkNextPage(pageEntity)
+            mShopPingVerticalAdapter.setList(pageEntity.data)
+            mShopPingVerticalAdapter.notifyDataSetChanged()
+        }
+        reset()
     }
 
     /**

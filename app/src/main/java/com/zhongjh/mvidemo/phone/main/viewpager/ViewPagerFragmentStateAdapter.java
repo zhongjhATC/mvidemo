@@ -7,6 +7,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.zhongjh.mvidemo.phone.main.fragment.shopping.ShopPingFragment;
+import com.zhongjh.mvidemo.phone.template.fragment.TemplateFragment;
 
 /**
  * main的ViewPager适配器
@@ -27,14 +28,14 @@ public class ViewPagerFragmentStateAdapter extends FragmentStateAdapter {
             case 0:
                 return new ShopPingFragment();
             case 1:
-                return new ShopPingFragment();
+                return new TemplateFragment();
             case 2:
-                return new ShopPingFragment();
+                return new TemplateFragment();
             case 3:
-                return new ShopPingFragment();
+                return new TemplateFragment();
             case 4:
             default:
-                return new ShopPingFragment();
+                return new TemplateFragment();
         }
     }
 

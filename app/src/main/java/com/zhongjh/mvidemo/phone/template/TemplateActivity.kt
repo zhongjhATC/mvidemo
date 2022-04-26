@@ -3,7 +3,6 @@ package com.zhongjh.mvidemo.phone.template
 import android.os.Bundle
 import com.hannesdorfmann.mosby3.mvi.MviActivity
 import com.zhongjh.mvidemo.R
-import com.zhongjh.mvilibrary.base.BaseActivity
 
 class TemplateActivity : BaseActivity<TemplateView, TemplatePresenter>(), TemplateView {
 
