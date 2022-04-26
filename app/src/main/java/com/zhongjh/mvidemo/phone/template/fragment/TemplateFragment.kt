@@ -2,6 +2,7 @@ package com.zhongjh.mvidemo.phone.template.fragment
 
 import android.os.Bundle
 import com.zhongjh.mvidemo.R
+import com.zhongjh.mvilibrary.base.BaseFragment
 
 /**
  *

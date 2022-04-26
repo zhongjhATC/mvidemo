@@ -8,6 +8,7 @@ import com.zhongjh.mvidemo.R
 import com.zhongjh.mvidemo.phone.search.SearchActivity
 import com.zhongjh.mvidemo.phone.search.yuanshen.adapter.YuanShenVerticalAdapter
 import com.zhongjh.mvidemo.view.CustomRefreshHeader
+import com.zhongjh.mvilibrary.base.BaseFragment
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_yuanshen.refreshLayout

@@ -10,6 +10,7 @@ import com.zhongjh.mvidemo.R
 import com.zhongjh.mvidemo.constant.FilePaths
 import com.zhongjh.mvidemo.phone.main.MainActivity
 import com.zhongjh.mvidemo.phone.privacypolicy.PrivacyPolicyActivity
+import com.zhongjh.mvilibrary.base.BaseActivity
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.view_countdown.*
